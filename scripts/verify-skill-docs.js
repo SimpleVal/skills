@@ -34,7 +34,7 @@ assertIncludes(setupSkill, "Code Verification Doc Reference");
 assertIncludes(setupSkill, "docs/agents/coding-standards.md");
 assertIncludes(setupSkill, "docs/agents/code-verification.md");
 assertIncludes(setupSkill, "`.kilo/`");
-assertIncludes(setupSkill, "OpenAI/GPT-5.6 Sol - Medium");
+assertIncludes(setupSkill, "Recommend the current session's model");
 assertNotIncludes(setupSkill, "C:\\Users\\khait\\me\\dev\\simval-skills");
 
 assertIncludes(implementSkill, "Implementer Orchestrator");

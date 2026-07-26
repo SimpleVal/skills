@@ -77,7 +77,7 @@ When `.kilo/` exists, ask:
 
 > Do you want to configure a Kilo Code Reviewer Agent for `/code-review`? (recommended: yes)
 
-If yes, ask for the preferred reviewer model. For this repository change, default to `OpenAI/GPT-5.6 Sol - Medium`; for other repositories, present it as the default suggestion only when the user has not already supplied a preferred reviewer model.
+If yes, ask for the preferred reviewer model. Recommend the current session's model unless the user has already supplied a preferred reviewer model.
 
 Record the selected agent name and model in `docs/agents/code-reviewer-agent.md`. The agent name should be `Code Reviewer Agent` unless the user explicitly chooses a different name.
 
