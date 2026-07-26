@@ -1,0 +1,9 @@
+{
+  "name": "simval-skills",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal skill library for AI coding agents",
+  "scripts": {
+    "sync-skills": "node scripts/sync-skills.js"
+  }
+}

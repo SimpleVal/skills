@@ -1,0 +1,5 @@
+interface:
+  display_name: "grill-me"
+  short_description: "Stress-test thinking one question at a time"
+policy:
+  allow_implicit_invocation: false
