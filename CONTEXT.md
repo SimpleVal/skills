@@ -35,3 +35,7 @@ _Avoid_: Review loop, fix pass
 **Contested Feedback**:
 Code review feedback that the implementer orchestrator explicitly does not accept as valid or appropriate.
 _Avoid_: Disagreed feedback, rejected review item
+
+**Promoted Bucket**:
+A skill bucket whose skills must be advertised in repository README files and grouped by invocation mode.
+_Avoid_: Public bucket, published bucket
