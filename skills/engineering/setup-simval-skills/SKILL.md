@@ -10,6 +10,9 @@ Scaffold the per-repo configuration that the engineering skills assume:
 - **Issue tracker** — where issues live (GitHub by default; local markdown is also supported out of the box)
 - **Triage labels** — the strings used for the five canonical triage roles
 - **Domain docs** — where `CONTEXT.md` and ADRs live, and the consumer rules for reading them
+- **Coding Standards Doc Reference** — where this repo records the human-provided source for coding standards
+- **Code Verification Doc Reference** — where this repo records the human-provided source for verification rules
+- **Code Reviewer Agent** — optional Kilo reviewer-agent setup when the repository already has `.kilo/`
 
 This is a prompt-driven skill, not a deterministic script. Explore, present what you found, confirm with the user, then write.
 
@@ -24,6 +27,7 @@ Look at the current repo to understand its starting state. Read whatever exists;
 - `CONTEXT.md` at the repo root
 - `docs/adr/` and any `src/*/docs/adr/` directories
 - `docs/agents/` — does this skill's prior output already exist?
+- `.kilo/` — if present, Kilo Code Reviewer Agent guidance may be offered; if absent, skip that guidance entirely
 - `.scratch/` — sign that a local-markdown issue tracker convention is already in use
 - Is the `triage` skill installed? (a `triage` skill folder alongside this one, or `triage` in your available skills.) This decides whether Section B runs at all.
 
@@ -54,12 +58,35 @@ If it is installed, ask exactly one question:
 
 The defaults are the five canonical roles, each label string equal to its name: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. On **yes**, write them as-is. Only if the user says no — usually because their tracker already uses other names (e.g. `bug:triage` for `needs-triage`) — collect the overrides so `triage` applies existing labels instead of creating duplicates.
 
+**Section C — Skill Configuration Docs.** Ask these as two separate questions, even when the same source answers both:
+
+> What should the Coding Standards Doc Reference point to? (recommended: the repo's existing `AGENTS.md`, `CONTRIBUTING.md`, or coding-standards document if one exists)
+
+> What should the Code Verification Doc Reference point to? (recommended: the repo's existing test, typecheck, lint, or release-verification document if one exists)
+
+Record the answers as repo-local Skill Configuration Docs:
+
+- `docs/agents/coding-standards.md` — stores the Coding Standards Doc Reference and any short notes the user gave.
+- `docs/agents/code-verification.md` — stores the Code Verification Doc Reference and any short notes the user gave.
+
+Never hard-code this repository's absolute path, or any target repository's absolute path, into reusable skill text. Store user-provided repository-local paths, URLs, or prose references exactly as configuration data inside the target repo's `docs/agents/*.md` files.
+
+**Section D — Kilo Code Reviewer Agent.** Run this section only when exploration found `.kilo/` in the target repo. If `.kilo/` is missing, do not mention or offer Kilo agent setup.
+
+When `.kilo/` exists, ask:
+
+> Do you want to configure a Kilo Code Reviewer Agent for `/code-review`? (recommended: yes)
+
+If yes, ask for the preferred reviewer model. For this repository change, default to `OpenAI/GPT-5.6 Sol - Medium`; for other repositories, present it as the default suggestion only when the user has not already supplied a preferred reviewer model.
+
+Record the selected agent name and model in `docs/agents/code-reviewer-agent.md`. The agent name should be `Code Reviewer Agent` unless the user explicitly chooses a different name.
+
 ### 3. Confirm and edit
 
 Show the user a draft of:
 
 - The `## Agent skills` block to add to whichever of `CLAUDE.md` / `AGENTS.md` is being edited (see step 4 for selection rules)
-- The contents of `docs/agents/issue-tracker.md`, `docs/agents/domain.md`, and `docs/agents/triage-labels.md` (the last only when `triage` is installed)
+- The contents of `docs/agents/issue-tracker.md`, `docs/agents/domain.md`, `docs/agents/coding-standards.md`, `docs/agents/code-verification.md`, `docs/agents/code-reviewer-agent.md` (only when `.kilo/` exists and the user accepts it), and `docs/agents/triage-labels.md` (the last only when `triage` is installed)
 
 Let them edit before writing.
 
@@ -91,9 +118,21 @@ The block:
 ### Domain docs
 
 [one-line summary of layout — "single-context"]. See `docs/agents/domain.md`.
+
+### Coding standards
+
+[one-line summary of the Coding Standards Doc Reference]. See `docs/agents/coding-standards.md`.
+
+### Code verification
+
+[one-line summary of the Code Verification Doc Reference]. See `docs/agents/code-verification.md`.
+
+### Code reviewer agent
+
+[one-line summary of the configured Code Reviewer Agent]. See `docs/agents/code-reviewer-agent.md`.
 ```
 
-Include the `### Triage labels` sub-block, and write `docs/agents/triage-labels.md`, only when `triage` is installed and Section B ran. When it isn't, both are omitted.
+Include the `### Triage labels` sub-block, and write `docs/agents/triage-labels.md`, only when `triage` is installed and Section B ran. When it isn't, both are omitted. Include the `### Code reviewer agent` sub-block, and write `docs/agents/code-reviewer-agent.md`, only when `.kilo/` exists and the user accepts Section D. When it doesn't, both are omitted.
 
 Then write the docs files using the seed templates in this skill folder as a starting point:
 
@@ -102,6 +141,9 @@ Then write the docs files using the seed templates in this skill folder as a sta
 - [issue-tracker-local.md](./issue-tracker-local.md) — local-markdown issue tracker
 - [triage-labels.md](./triage-labels.md) — label mapping (only if `triage` is installed)
 - [domain.md](./domain.md) — domain doc consumer rules + layout
+- [coding-standards.md](./coding-standards.md) — Coding Standards Doc Reference
+- [code-verification.md](./code-verification.md) — Code Verification Doc Reference
+- [code-reviewer-agent.md](./code-reviewer-agent.md) — Kilo Code Reviewer Agent configuration (only when `.kilo/` exists and the user accepts Section D)
 
 For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch using the user's description.
 

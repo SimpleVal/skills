@@ -8,9 +8,14 @@ Two-axis review of the diff between `HEAD` and a fixed point the user supplies:
 - **Standards** — does the code conform to this repo's documented coding standards?
 - **Spec** — does the code faithfully implement the originating issue / PRD / spec?
 
-Both axes run as **parallel sub-agents** so they don't pollute each other's context, then this skill aggregates their findings.
+Both axes run as separate **Code Reviewer Agent** tasks so they don't pollute each other's context, then this skill aggregates their findings.
 
 The issue tracker should have been provided to you — run `/setup-simval-skills` if `docs/agents/issue-tracker.md` is missing.
+The setup should also provide Skill Configuration Docs for review inputs:
+
+- `docs/agents/coding-standards.md` — the Coding Standards Doc Reference.
+- `docs/agents/code-verification.md` — the Code Verification Doc Reference.
+- `docs/agents/code-reviewer-agent.md` — the Code Reviewer Agent name and preferred reviewer model, when configured.
 
 ## Process
 
@@ -33,7 +38,7 @@ Look for the originating spec, in this order:
 
 ### 3. Identify the standards sources
 
-Anything in the repo that documents how code should be written, such as `CODING_STANDARDS.md` or `CONTRIBUTING.md`.
+Start with the Coding Standards Doc Reference recorded in `docs/agents/coding-standards.md`, then include anything else in the repo that documents how code should be written, such as `CODING_STANDARDS.md` or `CONTRIBUTING.md`.
 
 On top of whatever the repo documents, the Standards axis always carries the **smell baseline** below — a fixed set of Fowler code smells (_Refactoring_, ch.3) that applies even when a repo documents nothing. Two rules bind it:
 
@@ -55,27 +60,33 @@ Each smell reads _what it is_ → _how to fix_; match it against the diff:
 - **Middle Man** — a class or function that mostly just delegates onward. → cut it, call the real target direct.
 - **Refused Bequest** — a subclass or implementer that ignores or overrides most of what it inherits. → drop the inheritance, use composition.
 
-### 4. Spawn both sub-agents in parallel
+### 4. Spawn both Code Reviewer Agent tasks in parallel
 
-Send a single message with two `Agent` tool calls. Use the `general-purpose` subagent for both.
+Read `docs/agents/code-reviewer-agent.md` when it exists. Use the Code Reviewer Agent named there for both Review Axis tasks. If no Code Reviewer Agent is configured, use the normal review-capable general agent for both tasks and report that fallback in the aggregate output.
+
+Send a single message with two agent calls. Use the Code Reviewer Agent for both the Standards Review Axis and the Spec Review Axis, while keeping the prompts and outputs separate.
 
 **Standards sub-agent prompt** — include:
 
 - The full diff command and commit list.
 - The list of standards-source files you found in step 3, **plus the smell baseline from step 3** pasted in full — the sub-agent has no other access to it.
+- The Code Verification Doc Reference from `docs/agents/code-verification.md`, so the reviewer can distinguish human verification expectations from coding standards.
+- The instruction: "Use the Code Reviewer Agent for this Standards Review Axis work."
 - The brief: "Report — per file/hunk where relevant — (a) every place the diff violates a documented standard: cite the standard (file + the rule); and (b) any baseline smell you spot: name it and quote the hunk. Distinguish hard violations from judgement calls — documented-standard breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard overrides the baseline. Skip anything tooling enforces. Under 400 words."
 
 **Spec sub-agent prompt** — include:
 
 - The diff command and commit list.
 - The path or fetched contents of the spec.
+- The Code Verification Doc Reference from `docs/agents/code-verification.md`, so the reviewer can call out missing required verification when the spec depends on it.
+- The instruction: "Use the Code Reviewer Agent for this Spec Review Axis work."
 - The brief: "Report: (a) requirements the spec asked for that are missing or partial; (b) behaviour in the diff that wasn't asked for (scope creep); (c) requirements that look implemented but where the implementation looks wrong. Quote the spec line for each finding. Under 400 words."
 
 If the spec is missing, skip the Spec sub-agent and note this in the final report.
 
 ### 5. Aggregate
 
-Present the two reports under `## Standards` and `## Spec` headings, verbatim or lightly cleaned. Do **not** merge or rerank findings — the two axes are deliberately separate (see _Why two axes_).
+Present the two reports under `## Standards` and `## Spec` headings, verbatim or lightly cleaned. Do **not** merge or rerank findings — the two axes are deliberately separate (see _Why two axes_). Keep the Code Reviewer Agent output from each Review Axis separate even though the same named agent performs both tasks.
 
 End with a one-line summary: total findings per axis, and the worst issue _within each axis_ (if any). Don't pick a single winner across axes — that's the reranking the separation exists to prevent.
 
