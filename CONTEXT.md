@@ -43,3 +43,15 @@ _Avoid_: Disagreed feedback, rejected review item
 **Promoted Bucket**:
 A skill bucket whose skills must be advertised in repository README files and grouped by invocation mode.
 _Avoid_: Public bucket, published bucket
+
+**Grill Design**:
+The user-invoked engineering skill, internally named `grill-design`, that sharpens a proposed design through a Grill Me interview while applying Domain Modeling. “Design” alone refers to the activity or its result, not the skill.
+_Avoid_: Design skill, Design
+
+**User-invoked Skill**:
+A skill presented for deliberate human selection and excluded from implicit model invocation through its available harness policy. It may explicitly compose other skills.
+_Avoid_: Human-only skill, non-model skill
+
+**Shared Design**:
+The explicitly confirmed understanding produced by a Grill Design session. It is valid input for either specification or direct implementation.
+_Avoid_: Design notes, chat context

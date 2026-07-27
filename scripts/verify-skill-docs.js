@@ -48,7 +48,6 @@ assertIncludes(implementSkill, "three Implementation Cycles");
 assertIncludes(implementSkill, "Do not commit");
 
 assertIncludes(codeReviewSkill, "Code Reviewer Agent");
-assertIncludes(codeReviewSkill, "docs/agents/code-reviewer-agent.md");
 assertIncludes(codeReviewSkill, "docs/agents/coding-standards.md");
 assertIncludes(codeReviewSkill, "docs/agents/code-verification.md");
 assertIncludes(codeReviewSkill, "Use the Code Reviewer Agent");

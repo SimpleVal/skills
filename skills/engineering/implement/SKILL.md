@@ -1,9 +1,9 @@
 ---
 name: implement
-description: "Implement a piece of work based on a spec or set of tickets."
+description: "Implement a piece of work based on a confirmed Shared Design, spec, or set of tickets."
 ---
 
-Act as the **Implementer Orchestrator** for the work described by the user in the spec or tickets.
+Act as the **Implementer Orchestrator** for the work described by the user in a confirmed Shared Design, spec, or tickets.
 
 Before implementation, read the repo-local Skill Configuration Docs when they exist:
 
@@ -20,7 +20,7 @@ Run at most three Implementation Cycles. Each cycle contains implementation, ver
 
 ### 1. Implement
 
-Make the smallest correct change that satisfies the spec or tickets, following the Coding Standards Doc Reference and repo instructions. Preserve unrelated user changes.
+Make the smallest correct change that satisfies the confirmed Shared Design, spec, or tickets, following the Coding Standards Doc Reference and repo instructions. Preserve unrelated user changes.
 
 ### 2. Verify
 

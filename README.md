@@ -8,8 +8,8 @@ See [skills/engineering](skills/engineering/README.md) for the engineering bucke
 
 ### User-invoked
 
-- [design](skills/engineering/design/SKILL.md) - Sharpen a design through a grill-me session and capture domain decisions.
-- [implement](skills/engineering/implement/SKILL.md) - Build work from a spec or ticket set, verify it, review it, and commit it.
+- [grill-design](skills/engineering/grill-design/SKILL.md) - Sharpen a plan or design through a relentless interview while updating the domain glossary and recording qualifying ADRs.
+- [implement](skills/engineering/implement/SKILL.md) - Build work from a confirmed Shared Design, spec, or ticket set; verify it; review it; and commit it.
 - [setup-simval-skills](skills/engineering/setup-simval-skills/SKILL.md) - Configure a repository for the engineering skill workflows.
 - [to-spec](skills/engineering/to-spec/SKILL.md) - Turn the current conversation into a tracker-ready spec.
 - [to-tickets](skills/engineering/to-tickets/SKILL.md) - Break a plan or spec into tracer-bullet tickets with blockers.

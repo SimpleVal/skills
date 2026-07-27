@@ -4,8 +4,8 @@ Skills for everyday code work: setup, design, specification, ticketing, implemen
 
 ## User-invoked
 
-- [design](design/SKILL.md) - Sharpen a design through a grill-me session and capture domain decisions.
-- [implement](implement/SKILL.md) - Build work from a spec or ticket set, verify it, review it, and commit it.
+- [grill-design](grill-design/SKILL.md) - Sharpen a plan or design through a relentless interview while updating the domain glossary and recording qualifying ADRs.
+- [implement](implement/SKILL.md) - Build work from a confirmed Shared Design, spec, or ticket set; verify it; review it; and commit it.
 - [setup-simval-skills](setup-simval-skills/SKILL.md) - Configure a repository for the engineering skill workflows.
 - [to-spec](to-spec/SKILL.md) - Turn the current conversation into a tracker-ready spec.
 - [to-tickets](to-tickets/SKILL.md) - Break a plan or spec into tracer-bullet tickets with blockers.
