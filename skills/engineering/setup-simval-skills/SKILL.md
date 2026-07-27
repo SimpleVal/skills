@@ -12,7 +12,7 @@ Scaffold the per-repo configuration that the engineering skills assume:
 - **Domain docs** — where `CONTEXT.md` and ADRs live, and the consumer rules for reading them
 - **Coding Standards Doc Reference** — where this repo records the human-provided source for coding standards
 - **Code Verification Doc Reference** — where this repo records the human-provided source for verification rules
-- **Code Reviewer Agent** — optional Kilo reviewer-agent setup when the repository already has `.kilo/`
+- **Code Review Agent** — optional Kilo custom-agent setup when the repository already has `.kilo/`
 
 This is a prompt-driven skill, not a deterministic script. Explore, present what you found, confirm with the user, then write.
 
@@ -27,7 +27,7 @@ Look at the current repo to understand its starting state. Read whatever exists;
 - `CONTEXT.md` at the repo root
 - `docs/adr/` and any `src/*/docs/adr/` directories
 - `docs/agents/` — does this skill's prior output already exist?
-- `.kilo/` — if present, Kilo Code Reviewer Agent guidance may be offered; if absent, skip that guidance entirely
+- `.kilo/` and `.kilo/agents/code-review.md` — if `.kilo/` is present, Kilo Code Review Agent setup may be offered; if absent, skip that setup entirely
 - `.scratch/` — sign that a local-markdown issue tracker convention is already in use
 - Is the `triage` skill installed? (a `triage` skill folder alongside this one, or `triage` in your available skills.) This decides whether Section B runs at all.
 
@@ -71,22 +71,23 @@ Record the answers as repo-local Skill Configuration Docs:
 
 Never hard-code this repository's absolute path, or any target repository's absolute path, into reusable skill text. Store user-provided repository-local paths, URLs, or prose references exactly as configuration data inside the target repo's `docs/agents/*.md` files.
 
-**Section D — Kilo Code Reviewer Agent.** Run this section only when exploration found `.kilo/` in the target repo. If `.kilo/` is missing, do not mention or offer Kilo agent setup.
+**Section D — Kilo Code Review Agent.** Run this section only when exploration found `.kilo/` in the target repo. If `.kilo/` is missing, do not mention or offer Kilo agent setup.
 
 When `.kilo/` exists, ask:
 
-> Do you want to configure a Kilo Code Reviewer Agent for `/code-review`? (recommended: yes)
+> Do you want to configure a Kilo Code Review Agent for `/code-review`? (recommended: yes)
 
-If yes, ask for the preferred reviewer model. Recommend the current session's model unless the user has already supplied a preferred reviewer model.
+If yes and `.kilo/agents/code-review.md` already exists, ask whether to replace it. Recommend keeping the existing file unless the user wants the setup template to overwrite it.
 
-Record the selected agent name and model in `docs/agents/code-reviewer-agent.md`. The agent name should be `Code Reviewer Agent` unless the user explicitly chooses a different name.
+If yes and either `.kilo/agents/code-review.md` does not exist or the user approves replacement, create `.kilo/agents/code-review.md` from this skill's `code-reviewer-agent.md` template. Do not write the Kilo agent choice into `docs/agents/`.
 
 ### 3. Confirm and edit
 
 Show the user a draft of:
 
 - The `## Agent skills` block to add to whichever of `CLAUDE.md` / `AGENTS.md` is being edited (see step 4 for selection rules)
-- The contents of `docs/agents/issue-tracker.md`, `docs/agents/domain.md`, `docs/agents/coding-standards.md`, `docs/agents/code-verification.md`, `docs/agents/code-reviewer-agent.md` (only when `.kilo/` exists and the user accepts it), and `docs/agents/triage-labels.md` (the last only when `triage` is installed)
+- The contents of `docs/agents/issue-tracker.md`, `docs/agents/domain.md`, `docs/agents/coding-standards.md`, `docs/agents/code-verification.md`, and `docs/agents/triage-labels.md` (the last only when `triage` is installed)
+- The contents of `.kilo/agents/code-review.md` only when `.kilo/` exists, the user accepts Section D, and either the file does not already exist or the user approves replacing it
 
 Let them edit before writing.
 
@@ -127,12 +128,9 @@ The block:
 
 [one-line summary of the Code Verification Doc Reference]. See `docs/agents/code-verification.md`.
 
-### Code reviewer agent
-
-[one-line summary of the configured Code Reviewer Agent]. See `docs/agents/code-reviewer-agent.md`.
 ```
 
-Include the `### Triage labels` sub-block, and write `docs/agents/triage-labels.md`, only when `triage` is installed and Section B ran. When it isn't, both are omitted. Include the `### Code reviewer agent` sub-block, and write `docs/agents/code-reviewer-agent.md`, only when `.kilo/` exists and the user accepts Section D. When it doesn't, both are omitted.
+Include the `### Triage labels` sub-block, and write `docs/agents/triage-labels.md`, only when `triage` is installed and Section B ran. When it isn't, both are omitted.
 
 Then write the docs files using the seed templates in this skill folder as a starting point:
 
@@ -143,7 +141,7 @@ Then write the docs files using the seed templates in this skill folder as a sta
 - [domain.md](./domain.md) — domain doc consumer rules + layout
 - [coding-standards.md](./coding-standards.md) — Coding Standards Doc Reference
 - [code-verification.md](./code-verification.md) — Code Verification Doc Reference
-- [code-reviewer-agent.md](./code-reviewer-agent.md) — Kilo Code Reviewer Agent configuration (only when `.kilo/` exists and the user accepts Section D)
+- [code-reviewer-agent.md](./code-reviewer-agent.md) — template for `.kilo/agents/code-review.md` (only when `.kilo/` exists, the user accepts Section D, and replacement rules allow writing it)
 
 For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch using the user's description.
 

@@ -4,9 +4,13 @@ This context defines the language for the engineering skill workflows in this re
 
 ## Language
 
-**Code Reviewer Agent**:
-A named agent responsible for assessing implementation changes against review prompts. It may be used for multiple review axes while preserving each axis as a separate review task.
-_Avoid_: Review bot, reviewer model
+**Code Review**:
+The reusable engineering skill that reviews implementation changes against standards and spec prompts.
+_Avoid_: Code Reviewer, Code Reviewer Agent
+
+**Code Review Agent**:
+An optional Kilo custom agent that can execute Code Review tasks. It may be used for multiple review axes while preserving each axis as a separate review task.
+_Avoid_: Code Reviewer Agent, review bot, reviewer model
 
 **Review Axis**:
 An independent perspective used to review a change, such as standards conformance or spec conformance. Review axes stay separate so one kind of failure does not mask another.
