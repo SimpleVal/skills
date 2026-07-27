@@ -8,7 +8,7 @@ Two-axis review of the diff between `HEAD` and a fixed point the user supplies:
 - **Standards** — does the code conform to this repo's documented coding standards?
 - **Spec** — does the code faithfully implement the originating issue / PRD / spec?
 
-Both axes run as separate **Code Review Agent** tasks when configured so they don't pollute each other's context, then this skill aggregates their findings.
+Both axes run as separate **Code Reviewer Agent** tasks when configured so they don't pollute each other's context, then this skill aggregates their findings.
 
 The issue tracker should have been provided to you — run `/setup-simval-skills` if `docs/agents/issue-tracker.md` is missing.
 The setup should also provide Skill Configuration Docs for review inputs:

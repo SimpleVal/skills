@@ -5,6 +5,8 @@ Skills are organized into bucket folders under `skills/`:
 - `misc/` — kept around but rarely used, not promoted
 - `personal/` — tied to my own setup, not promoted
 
+Reusable skill changes must be made and reviewed against the **Canonical Skill Sources** under `skills/**`. Do not edit or review `.agents/skills/**` directly; those entries are generated **Harness Skill Copies** refreshed from the canonical sources by `npm run sync-skills`.
+
 Every skill in `engineering/` or `productivity/` (the **promoted** buckets) must have a reference in the top-level `README.md`. Skills in `misc/`, `personal/`, `in-progress/`, and `deprecated/` must not appear in either.
 
 Each skill entry in the top-level `README.md` must link the skill name to its `SKILL.md`.

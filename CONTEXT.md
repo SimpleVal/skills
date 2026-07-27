@@ -55,3 +55,23 @@ _Avoid_: Human-only skill, non-model skill
 **Shared Design**:
 The explicitly confirmed understanding produced by a Grill Design session. It is valid input for either specification or direct implementation.
 _Avoid_: Design notes, chat context
+
+**Canonical Skill Source**:
+The skill definition under `skills/<bucket>/<skill>/` that maintainers edit and review as the source of truth.
+_Avoid_: source skill file, real skill
+
+**Harness Skill Copy**:
+A generated copy of a Canonical Skill Source under `.agents/skills/`, refreshed by `npm run sync-skills` and not edited or reviewed directly.
+_Avoid_: agent skill source, copied skill
+
+**Skill ID**:
+The canonical kebab-case identifier for a skill, stored in `SKILL.md` frontmatter as `name` and matching the skill's parent folder name exactly.
+_Avoid_: skill name, frontmatter display name
+
+**Skill Display Name**:
+The human-readable skill name shown by an agent harness, stored in `agents/openai.yaml` as `interface.display_name` and derived from the Skill ID with approved casing exceptions.
+_Avoid_: skill ID, yaml name
+
+**Skill Doc Reference**:
+A local document reference inside `SKILL.md`, written either as a Markdown link or a backticked local file path, whose target should exist.
+_Avoid_: prose path mention, external URL, heading reference
