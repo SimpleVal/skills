@@ -61,7 +61,7 @@ Each smell reads _what it is_ → _how to fix_; match it against the diff:
 
 ### 4. Spawn both Code Review Agent tasks in parallel
 
-When `.kilo/agents/code-review.md` exists, use the Code Review Agent for both Review Axis tasks. If no Code Review Agent is configured, use the normal review-capable general agent for both tasks and report that fallback in the aggregate output.
+When `.kilo/agent/code-review.md` or `.kilo/agents/code-review.md` exists, use the Code Reviewer Agent for both Review Axis tasks. See `docs/agents/code-reviewer-agent.md` when present for repo-local Code Reviewer Agent setup notes. If no Code Review Agent is configured, use the normal review-capable general agent for both tasks and report that fallback in the aggregate output.
 
 Send a single message with two agent calls. Use the Code Review Agent for both the Standards Review Axis and the Spec Review Axis when configured, while keeping the prompts and outputs separate.
 
@@ -70,7 +70,7 @@ Send a single message with two agent calls. Use the Code Review Agent for both t
 - The full diff command and commit list.
 - The list of standards-source files you found in step 3, **plus the smell baseline from step 3** pasted in full — the sub-agent has no other access to it.
 - The Code Verification Doc Reference from `docs/agents/code-verification.md`, so the reviewer can distinguish human verification expectations from coding standards.
-- The instruction: "Use the Code Review Agent for this Standards Review Axis work when configured."
+- The instruction: "Use the Code Reviewer Agent for this Standards Review Axis work when configured."
 - The brief: "Report — per file/hunk where relevant — (a) every place the diff violates a documented standard: cite the standard (file + the rule); and (b) any baseline smell you spot: name it and quote the hunk. Distinguish hard violations from judgement calls — documented-standard breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard overrides the baseline. Skip anything tooling enforces. Under 400 words."
 
 **Spec sub-agent prompt** — include:
@@ -78,7 +78,7 @@ Send a single message with two agent calls. Use the Code Review Agent for both t
 - The diff command and commit list.
 - The path or fetched contents of the spec.
 - The Code Verification Doc Reference from `docs/agents/code-verification.md`, so the reviewer can call out missing required verification when the spec depends on it.
-- The instruction: "Use the Code Review Agent for this Spec Review Axis work when configured."
+- The instruction: "Use the Code Reviewer Agent for this Spec Review Axis work when configured."
 - The brief: "Report: (a) requirements the spec asked for that are missing or partial; (b) behaviour in the diff that wasn't asked for (scope creep); (c) requirements that look implemented but where the implementation looks wrong. Quote the spec line for each finding. Under 400 words."
 
 If the spec is missing, skip the Spec sub-agent and note this in the final report.

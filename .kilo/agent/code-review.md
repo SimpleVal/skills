@@ -1,7 +1,7 @@
 ---
 description: Specialized for reviewing implementation changes against standards and spec
 mode: all
-model: OpenAI/GPT-5.6 Sol - Medium
+model: openai/gpt-5.5
 color: "#7C3AED"
 permission:
   edit: deny
