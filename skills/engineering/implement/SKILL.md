@@ -3,52 +3,103 @@ name: implement
 description: "Implement a piece of work based on a confirmed Shared Design, spec, or set of tickets."
 ---
 
-Act as the **Implementer Orchestrator** for the work described by the user in a confirmed Shared Design, spec, or tickets.
+Act as the **Implementer Orchestrator** for the work identified by the user.
 
-Before implementation, read the repo-local Skill Configuration Docs when they exist:
+Treat the user-designated Shared Design, specification, or tickets as the source of truth. Stop and report material contradictions or missing decisions rather than resolving them silently.
 
-- `docs/agents/coding-standards.md` — the Coding Standards Doc Reference. Use it to find the human-provided coding standards that guide implementation.
-- `docs/agents/code-verification.md` — the Code Verification Doc Reference. Use it to find the human-provided verification rules that guide test, typecheck, lint, and full-suite choices.
+## Repository Guidance
 
-If either Skill Configuration Doc is missing, continue with the repository's visible instructions and report the missing doc in the final result.
+When present, read and follow:
 
-Use /tdd where possible, at pre-agreed seams.
+- `docs/agents/coding-standards.md`
+- `docs/agents/code-verification.md`
+- repository-level instructions and any guidance referenced by those files
 
-## Implementation Cycle
+If either file is missing, continue using the available repository guidance and report the omission in the final result.
 
-Run at most three Implementation Cycles. Each cycle contains implementation, verification, one Code Review attempt, and review-feedback evaluation.
+## Working-Tree Gate
 
-### 1. Implement
+Before implementation, check for staged, unstaged, and untracked changes.
 
-Make the smallest correct change that satisfies the confirmed Shared Design, spec, or tickets, following the Coding Standards Doc Reference and repo instructions. Preserve unrelated user changes.
+If any exist, ask the user to choose:
 
-### 2. Verify
+1. clear or commit them before continuing; or
+2. continue with committing disabled for this session.
 
-Run typechecking regularly, single test files regularly, and the full test suite once at the end, guided by the Code Verification Doc Reference.
+Recheck the working tree after the user responds. If it remains dirty, continue only when the user chose to do so, preserve unrelated changes, and do not commit during this session.
 
-If verification fails, fix the implementation and rerun verification. Retry up to three verification attempts in the current Implementation Cycle. If verification still fails after three attempts, start the next Implementation Cycle unless the three-cycle cap has been reached.
+Record the initial state so final changes can be distinguished from pre-existing work.
 
-### 3. Review
+## Implement
 
-Start /code-review only after verification passes. Run exactly one Code Review attempt per Implementation Cycle.
+Make the smallest correct change that satisfies the confirmed source of truth. Follow repository guidance and preserve unrelated user changes.
 
-### 4. Evaluate Review Feedback
+Use /tdd at pre-agreed seams when available and applicable. If it cannot be used, continue and report the limitation.
 
-Classify every review finding as accepted feedback or Contested Feedback.
+Stop expanding an item when it cannot be resolved safely within the confirmed scope, but continue working on other independent items.
 
-- Accepted feedback is feedback the Implementer Orchestrator agrees is valid and relevant. Apply it by returning to implementation and verification in the next Implementation Cycle.
-- Contested Feedback is feedback the Implementer Orchestrator does not accept as valid or appropriate. Do not apply it silently. Report the finding and the reason for disagreement.
+## Verify and Review
 
-If accepted feedback remains unresolved after the third Implementation Cycle, report it as unresolved accepted feedback.
+### 1. Verify
 
-If Contested Feedback remains after review, report it with the disagreement reason. Do not keep cycling solely to erase contested items unless new implementation work is accepted.
+Before code review, run the applicable repository-defined checks, including linting, type checks, tests, and other required verification.
+
+Fix each failure and rerun the checks affected by the fix.
+
+An item becomes blocked when it reappears unchanged after one reasonable fix attempt. If a previously resolved item reappears later, treat it as a regression and allow one new fix attempt before marking it blocked.
+
+Track blocked items, but continue addressing other distinct failures.
+
+### 2. Review
+
+Run /code-review only after the applicable verification checks pass.
+
+Classify each finding:
+
+- Accepted: valid and relevant; fix it, then rerun only the affected verification checks before reviewing again.
+- Contested: not valid or appropriate; do not apply it. Record the finding and disagreement reason for human resolution.
+
+Apply the same blocked-item rule used for verification. Continue addressing other findings after one becomes blocked.
+
+If /code-review is unavailable or fails to run, record the reason and disable committing.
+
+Repeat verification and review until no actionable findings remain or remaining items are blocked or contested.
+
+### 3. Final Verification
+
+When review is clear, run the complete verification set required by the repository.
+
+For each new failure:
+
+1. fix it;
+2. rerun the affected checks;
+3. run /code-review again;
+4. repeat complete final verification.
+
+Continue until final verification passes or remaining items become blocked.
 
 ## Commit Gate
 
-Commit your work to the current branch only when all of these are true:
+Commit the session's implementation changes to the current branch only when all of the following are true:
 
-- Verification passes.
-- No unresolved accepted feedback remains.
-- No Contested Feedback remains.
+- the post-choice working-tree check was clean;
+- /code-review completed successfully;
+- no blocked verification issue remains;
+- no unresolved accepted finding remains;
+- no contested finding remains;
+- complete final verification passes; and
+- the commit contains only changes produced by this session.
 
-Do not commit if verification is failing, unresolved accepted feedback remains, Contested Feedback remains, or the three Implementation Cycles have been exhausted with unresolved accepted feedback or Contested Feedback. Report the remaining unresolved feedback instead.
+Otherwise, do not commit and report each blocking reason.
+
+## Final Result
+
+Report:
+
+- what changed;
+- verification and review performed;
+- whether a commit was created;
+- missing repository guidance;
+- /tdd limitations;
+- blocked or contested items and their reasons; and
+- any other unresolved blocker.

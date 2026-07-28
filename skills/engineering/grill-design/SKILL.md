@@ -3,11 +3,26 @@ name: grill-design
 description: Sharpen a plan or design through a relentless interview while updating the domain glossary and recording qualifying ADRs.
 ---
 
-Run a `/grill-me` session while applying `/domain-modeling` skill.
+Run /grill-me while applying /domain-modeling.
 
-Inspect the codebase when needed to check factual claims, but do not make implementation or prototype changes. During the session, create or update only `CONTEXT.md` and ADRs that qualify under `/domain-modeling` rules. Defer implementation requests until there are no more questions needed to be asked.
+Inspect the codebase when needed to verify facts, constraints, and existing behavior. Do not modify source code or any other files while questions remain.
 
-Only after all the questions are answered and the final shared design being confirmed, summarize the resolved decisions and domain-document changes. Then offer these explicit next actions without invoking either automatically:
+During the interview:
 
-- Run `/to-spec` to create a spec from the Shared Design.
-- Run `/implement` to implement the Shared Design.
+- Ask the questions required by /grill-me and /domain-modeling.
+- Do not recap or summarize decisions between questions.
+- Do not update CONTEXT.md, ADRs, specifications, or implementation files.
+- Do not begin implementation or invoke another skill.
+- Continue until there are no unresolved questions and both sides have a shared understanding of the design.
+
+Then present the complete Shared Design once and ask the user to confirm it.
+
+Only after the user confirms the final Shared Design:
+
+1. Summarize the resolved decisions once.
+2. Apply the documentation updates required by /domain-modeling, limited to CONTEXT.md and ADRs that qualify under its rules.
+3. Offer exactly these next actions:
+   - Run /to-spec to create a Shared Design spec.
+   - Run /implement to implement the confirmed Shared Design.
+
+Wait for the user to choose. Do not invoke either action automatically.
