@@ -4,136 +4,235 @@ description: Teach the user a new skill or concept, within this workspace.
 argument-hint: "What would you like to learn about?"
 ---
 
-The user has asked you to teach them something. This is a stateful request - they intend to learn the topic over multiple sessions.
+The user has asked you to teach them something. This is a stateful request: they intend to learn the topic over multiple sessions.
+
+## Initialize the Teaching Workspace
+
+Create a dedicated topic folder under the current directory before creating any teaching files.
+
+### Choose the folder name
+
+Derive the base folder name from the skill, knowledge area, or topic the user wants to learn:
+
+1. Convert the topic to lowercase.
+2. Replace each sequence of characters other than letters or digits with one hyphen.
+3. Remove leading and trailing hyphens.
+4. Use `topic` if normalization produces an empty name.
+
+Examples:
+
+- `Python Basics` becomes `python-basics`.
+- `System Design / APIs` becomes `system-design-apis`.
+- `C++` becomes `c`.
+- `!!!` becomes `topic`.
+
+Do not rename or reuse an existing folder.
+
+If the base folder already exists, append the next available two-digit suffix, beginning with `-02`:
+
+- `python`
+- `python-02`
+- `python-03`
+
+Check candidates sequentially and select the first name that does not already exist. Continue beyond two digits when necessary, such as `python-100`.
+
+### Establish the workspace root
+
+Create the selected folder under the current directory and treat it as the teaching workspace root for the rest of the request.
+
+Keep track of this path as `WORKSPACE_ROOT`. This name is conceptual; it does not need to be exported as an environment variable.
+
+Create these directories inside it when absent:
+
+- `reference/`
+- `learning-records/`
+- `lessons/`
+- `assets/`
+
+Create the required workspace files as they become relevant. Do not create teaching files in the parent directory.
+
+After initialization, resolve every workspace path in this skill relative to `WORKSPACE_ROOT`. For example:
+
+- `MISSION.md` means `<WORKSPACE_ROOT>/MISSION.md`.
+- `lessons/0001-example.html` means `<WORKSPACE_ROOT>/lessons/0001-example.html`.
+- `assets/styles.css` means `<WORKSPACE_ROOT>/assets/styles.css`.
+
+Files bundled with this skill, including the format documents referenced below, remain relative to the skill directory rather than `WORKSPACE_ROOT`.
+
+Do not create another topic folder during the same teaching request. Continue using the established `WORKSPACE_ROOT`.
 
 ## Teaching Workspace
 
-Treat the current directory as a teaching workspace. The state of their learning is captured in this directory in several files:
+The state of the user's learning is captured inside `WORKSPACE_ROOT`:
 
-- `MISSION.md`: A document capturing the _reason_ the user is interested in the topic. This should be used to ground all teaching. Use the format in [MISSION-FORMAT.md](./MISSION-FORMAT.md).
-- `./reference/*.html`: A directory of reference materials. These are the compressed learnings from the lessons - cheat sheets, reference algorithms, syntax, yoga poses, glossaries. They are the raw units of learning. They should be beautiful documents which print out well, and are designed for quick reference.
-- `RESOURCES.md`: A list of resources which can be explored to ground your teaching in contextual knowledge, or to acquire knowledge and wisdom. Use the format in [RESOURCES-FORMAT.md](./RESOURCES-FORMAT.md).
-- `./learning-records/*.md`: A directory of learning records, which capture what the user has learned. These are loosely equivalent to architectural decision records in software development - they capture non-obvious lessons and key insights that may need to be revised later, or drive future sessions. These should be used to calculate the zone of proximal development. They are titled `0001-<dash-case-name>.md`, where the number increments each time. Use the format in [LEARNING-RECORD-FORMAT.md](./LEARNING-RECORD-FORMAT.md).
-- `./lessons/*.html`: A directory of lessons. A **lesson** is a single, self-contained HTML output that teaches one tightly-scoped thing tied to the mission. This is the primary unit of teaching in this workspace.
-- `./assets/*`: Reusable **components** shared across lessons. See [Assets](#assets).
-- `NOTES.md`: A scratchpad for you to jot down user preferences, or working notes.
+- `MISSION.md`: Captures the reason the user is interested in the topic. Use it to ground all teaching. Follow the bundled `MISSION-FORMAT.md`.
+- `reference/*.html`: Compressed learning materials such as cheat sheets, algorithms, syntax guides, yoga poses, and glossaries. They should be attractive, printable, and designed for quick reference.
+- `RESOURCES.md`: Lists resources used to ground the teaching or help the user acquire knowledge and wisdom. Follow the bundled `RESOURCES-FORMAT.md`.
+- `learning-records/*.md`: Captures non-obvious lessons and key insights that may need revision or influence future sessions. These records are loosely equivalent to architectural decision records and help determine the user's zone of proximal development. Name them `0001-<dash-case-name>.md`, incrementing the number for each record. Follow the bundled `LEARNING-RECORD-FORMAT.md`.
+- `lessons/*.html`: Contains lessons. A lesson is one self-contained HTML document teaching a tightly scoped subject tied to the mission.
+- `assets/*`: Contains reusable components shared across lessons. See [Assets](#assets).
+- `NOTES.md`: Stores user preferences and working notes.
 
 ## Philosophy
 
-To learn at a deep level, the user needs three things:
+Deep learning requires three things:
 
-- **Knowledge**, captured from high-quality, high-trust resources
-- **Skills**, acquired through highly-relevant interactive lessons devised by you, based on the knowledge
-- **Wisdom**, which comes from interacting with other learners and practitioners
+- **Knowledge**, acquired from high-quality, trustworthy resources
+- **Skills**, developed through relevant interactive lessons based on that knowledge
+- **Wisdom**, gained through interaction with learners and practitioners
 
-Before the `RESOURCES.md` is well-populated, your focus should be to find high-quality resources which will help the user acquire knowledge. Never trust your parametric knowledge.
+Until `RESOURCES.md` is well populated, prioritize finding high-quality resources that help the user acquire knowledge. Do not rely on unsupported parametric knowledge.
 
-Some topics may require more skills than knowledge. Learning more about theoretical physics might be more knowledge-based. For yoga, more skills-based.
+The balance between knowledge and skills depends on the topic. Theoretical physics may be primarily knowledge-based, while yoga may be primarily skills-based.
 
-### Fluency vs Storage Strength
+### Fluency vs. Storage Strength
 
-You should be careful to split between two types of learning:
+Distinguish between:
 
-- **Fluency strength**: in-the-moment retrieval of knowledge
+- **Fluency strength**: immediate retrieval of knowledge
 - **Storage strength**: long-term retention of knowledge
 
-Fluency can give the user an illusory sense of mastery, but storage strength is the real goal. Try to design lessons which build long-term retention by desirable difficulty:
+Fluency can create an illusion of mastery. Storage strength is the goal. Design lessons that use desirable difficulty to improve retention:
 
-- Using retrieval practice (recall from memory)
-- Spacing (distributing practice over time)
-- Interleaving (mixing up different but related topics in practice - for skills practice only)
+- Retrieval practice: recalling information from memory
+- Spacing: distributing practice over time
+- Interleaving: mixing related topics during skills practice
 
 ## Lessons
 
-A lesson is the main thing you produce — the unit in which knowledge and skills reach the user. Each lesson is one self-contained HTML file, saved to `./lessons/` and titled `0001-<dash-case-name>.html` where the number increments each time.
+A lesson is the primary unit through which knowledge and skills reach the user.
 
-A lesson should be **beautiful** — clean, readable typography and layout — since the user will return to these later to review. Think Tufte.
+Save each lesson as one self-contained HTML file under `lessons/`. Name lessons `0001-<dash-case-name>.html`, incrementing the number each time.
 
-The lesson should be short, and completable very quickly. Learners' working memory is very small, and we need to stay within it. But each lesson should give the user a single tangible win that they can build on. It should be directly tied to the mission, and should be in the user's zone of proximal development.
+Lessons should be visually attractive, with clean and readable typography and layout. Aim for a restrained, information-dense style similar to Tufte.
 
-If possible, open the lesson file for the user by running a CLI command.
+Keep each lesson short and quickly completable. Working memory is limited. Each lesson should provide one tangible win that builds toward the mission and fits the user's zone of proximal development.
 
-Each lesson should link via HTML anchors to other lessons and reference documents.
+When the environment supports it, open the completed lesson for the user with an appropriate local command.
 
-Each lesson should recommend a primary source for the user to read or watch. This should be the most high-quality, high-trust resource you found on the topic.
+Each lesson should:
 
-Each lesson should contain a reminder to ask followup questions to the agent. The agent is their teacher, and can assist with anything that's unclear.
+- Link to relevant lessons and reference documents with HTML anchors.
+- Recommend one primary high-quality, trustworthy source to read or watch.
+- Remind the user that they can ask the agent follow-up questions.
 
 ## Assets
 
-Lessons are built from reusable **components**, stored in `./assets/`: stylesheets, quiz widgets, simulators, diagram helpers — anything a second lesson could reuse.
+Build lessons from reusable components stored under `assets/`. Components may include stylesheets, quiz widgets, simulators, diagram helpers, or anything another lesson could reuse.
 
-Reuse is the default, not the exception. Before authoring a lesson, read `./assets/` and build from the components already there. When a lesson needs something new and reusable, write it as a component in `./assets/` and link to it — never inline code a future lesson would duplicate.
+Reuse components by default. Before creating a lesson:
 
-A shared stylesheet is the first component every workspace earns: every lesson links it, so the lessons look like one consistent course rather than a pile of one-offs. As the workspace grows, so should the component library.
+1. Inspect the existing contents of `assets/`.
+2. Reuse suitable components.
+3. Add a new component when the lesson needs reusable behavior or presentation.
+4. Link to the component instead of inlining code that future lessons would duplicate.
+
+The first reusable component should normally be a shared stylesheet linked by every lesson. This gives the workspace a consistent course design rather than a collection of unrelated pages.
+
+Grow the component library only when a component has current value and credible reuse potential.
 
 ## The Mission
 
-Every lesson should be tied into the mission - the reason that the user is interested in learning about the topic.
+Tie every lesson to the user's mission: the reason they want to learn the topic.
 
-If the user is unclear about the mission, or the `MISSION.md` is not populated, your first job should be to question the user on why they want to learn this.
+If the mission is unclear or `MISSION.md` is missing or incomplete, first ask why the user wants to learn the topic.
 
-Failing to understand the mission will mean knowledge acquisition is not grounded in real-world goals. Lessons will feel too abstract. You will have no way of judging what the user should do next.
+Without a clear mission:
 
-Missions may change as the user develops more skills and knowledge. This is normal - make sure to update the `MISSION.md` and add a learning record to capture the change. Confirm with the user before changing the mission.
+- Knowledge acquisition lacks a practical goal.
+- Lessons may become too abstract.
+- There is no reliable basis for selecting the next lesson.
 
-## Zone Of Proximal Development
+A mission may change as the user develops knowledge and skills. Before changing it:
 
-Each lesson, the user should always feel as if they are being challenged 'just enough'.
+1. Confirm the change with the user.
+2. Update `MISSION.md`.
+3. Add a learning record explaining the change.
 
-The user may specify an exact thing they want to learn. If they don't, figure out their zone of proximal development by:
+## Zone of Proximal Development
 
-- Reading their `learning-records`
-- Figuring out the right thing to teach them based on their mission
-- Teach the most relevant thing that fits in their zone of proximal development
+Each lesson should challenge the user just enough.
+
+The user may request a specific subject. Otherwise, determine an appropriate next lesson by:
+
+1. Reading `MISSION.md`.
+2. Reading the existing learning records.
+3. Identifying the most relevant next skill.
+4. Selecting a lesson that fits the user's current ability.
 
 ## Knowledge
 
-Lessons should be designed around a skill the user is going to learn. The knowledge in the lesson should be only what's required to acquire that skill. You teach the knowledge first, then get the user to practice the skills via an interactive feedback loop.
+Design each lesson around a skill the user will acquire. Include only the knowledge needed to develop that skill.
 
-Knowledge should first be gathered from trusted resources. Use `RESOURCES.md` to keep track of them. Lessons should be littered with citations - links to external resources to back up any claim made. This increases the trustworthiness of the lesson.
+Teach the necessary knowledge first, then have the user practise through an interactive feedback loop.
 
-For acquiring knowledge, difficulty is the enemy. It eats working memory you need for understanding.
+Gather knowledge from trustworthy resources and track those resources in `RESOURCES.md`. Support factual claims in lessons with links to external sources.
+
+When acquiring knowledge, unnecessary difficulty consumes working memory needed for understanding. Keep explanations direct and manageable.
 
 ## Skills
 
-If knowledge is all about acquisition, skills are about durability and flexibility. Make the knowledge stick.
+Knowledge supports acquisition; practice creates durability and flexibility.
 
-For skill acquisition, difficulty is the tool. Effortful retrieval is what builds storage strength. Skills should be taught through interactive lessons. There are several tools at your disposal:
+Use productive difficulty to make knowledge stick. Effortful retrieval builds storage strength.
 
-- Interactive lessons, using quizzes and light in-browser tasks
-- Lessons which guide the user through a list of real-world steps to take (for instance, yoga poses)
+Teach skills through interactive lessons such as:
 
-Each of these should be based on a **feedback loop**, where the user receives feedback on their performance. This feedback loop should be as tight as possible, giving feedback immediately - and ideally automatically.
+- Quizzes and lightweight in-browser tasks
+- Guided real-world procedures, such as yoga sequences
+- Exercises with immediate or automatic feedback
 
-For quizzes, each answer should be exactly the same number of words (and characters, if possible). Don't give the user any clues about the answer through formatting.
+Every skills exercise should have a feedback loop. Keep that loop as tight as practical.
+
+For multiple-choice quizzes, make answer choices the same number of words and, where practical, the same number of characters. Do not reveal the answer through formatting or unequal option length.
 
 ## Acquiring Wisdom
 
-Wisdom comes from true real-world interaction - testing your skills outside the learning environment.
+Wisdom develops through real-world interaction and testing outside the teaching workspace.
 
-When the user asks a question that appears to require wisdom, your default posture should be to attempt to answer - but to ultimately delegate to a **community**.
+When a question requires practitioner judgment:
 
-A community is a place (online or offline) where the user can test their skills in the real world. This might be a forum, a subreddit, a real-world class (budget permitting) or a local interest group.
+1. Give the best grounded answer available.
+2. Explain relevant uncertainty.
+3. Recommend an appropriate community where the user can test their understanding.
 
-You should attempt to find high-reputation communities the user can join. If the user expresses a preference that they don't want to join a community, respect it.
+A community may be:
+
+- An online forum
+- A moderated discussion group
+- A professional or enthusiast community
+- A local class
+- A local interest group
+
+Prefer reputable communities. Respect the user's preference if they do not want to join one.
 
 ## Reference Documents
 
-While creating lessons, you should also create reference documents. Lessons can reference these documents - they are useful for tracking raw units of knowledge useful across lessons.
+Create reference documents alongside lessons when the material will remain useful.
 
-Lessons will rarely be revisited later - reference documents will be. They should be the compressed essence of the lesson, in a format designed for quick reference.
+Lessons may not be revisited frequently, but reference documents should capture the durable, compressed essence of what was taught.
 
-Some learning topics lend themselves to reference:
+Topics suited to reference documents include:
 
-- Syntax and code snippets for programming
-- Algorithms and flowcharts for processes
-- Yoga poses and sequences for yoga
-- Exercises and routines for fitness
-- Glossaries for any topic with its own nomenclature
+- Programming syntax and code snippets
+- Algorithms and process flowcharts
+- Yoga poses and sequences
+- Fitness exercises and routines
+- Domain terminology and glossaries
 
-Glossaries, in particular, are an essential reference. Once one is created, it should be adhered to in every lesson.
+Create a glossary when the topic has specialized terminology. Once established, use its terminology consistently throughout later lessons.
 
 ## `NOTES.md`
 
-The user will sometimes express preferences of how they want to be taught, or things you should keep in mind. This is the place to record those preferences, so you can refer back to them when designing lessons or working with the user.
+Record durable teaching preferences and relevant working notes in `NOTES.md`.
+
+Examples include:
+
+- Preferred teaching style
+- Accessibility requirements
+- Desired lesson duration
+- Familiar tools or terminology
+- Topics the user finds difficult
+- Subjects the user wants to avoid
+
+Do not use `NOTES.md` as a substitute for learning records or the mission.
