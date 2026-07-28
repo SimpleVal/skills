@@ -1,11 +1,11 @@
 # Coding Standards Doc Reference
 
-Record the repository-local path, URL, or prose reference the user selected during `/setup-simval-skills`.
+Repository coding standards used by skills that evaluate or modify code.
 
 ## Reference
 
-<replace with the selected Coding Standards Doc Reference>
+<replace with the selected repository-local path, URL, or prose reference>
 
 ## Notes
 
-<replace with any user-provided notes, or `None`>
+<replace with user-provided notes, or `None`>

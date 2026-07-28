@@ -3,151 +3,158 @@ name: setup-simval-skills
 description: Configure this repo for the engineering skills — set up its issue tracker, triage label vocabulary, and domain doc layout. Run once before first use of the other engineering skills.
 ---
 
-# Setup Simval's Skills
+# Setup Simval Skills
 
-Scaffold the per-repo configuration that the engineering skills assume:
+Configure the repository guidance used by the engineering skills:
 
-- **Issue tracker** — where issues live (GitHub by default; local markdown is also supported out of the box)
-- **Triage labels** — the strings used for the five canonical triage roles
-- **Domain docs** — where `CONTEXT.md` and ADRs live, and the consumer rules for reading them
-- **Coding Standards Doc Reference** — where this repo records the human-provided source for coding standards
-- **Code Verification Doc Reference** — where this repo records the human-provided source for verification rules
-- **Code Reviewer Agent** — optional Kilo custom-agent setup when the repository already has `.kilo/`
+- issue tracker;
+- triage labels, when the `triage` skill is installed;
+- domain-document layout;
+- coding-standards reference;
+- code-verification reference.
 
-This is a prompt-driven skill, not a deterministic script. Explore, present what you found, confirm with the user, then write.
+Explore the repository, present the proposed configuration, obtain approval, then write it.
 
-## Process
+## 1. Explore
 
-### 1. Explore
+Inspect:
 
-Look at the current repo to understand its starting state. Read whatever exists; don't assume:
+- `git remote -v` and `.git/config`;
+- root `AGENTS.md` and `CLAUDE.md`;
+- root `CONTEXT.md`;
+- `docs/adr/` and `src/*/docs/adr/`;
+- `.scratch/`;
+- whether the `triage` skill is installed;
+- existing repository documentation relevant to coding standards and verification.
 
-- `git remote -v` and `.git/config` — is this a GitHub repo? Which one?
-- `AGENTS.md` and `CLAUDE.md` at the repo root — does either exist? Is there already an `## Agent skills` section in either?
-- `CONTEXT.md` at the repo root
-- `docs/adr/` and any `src/*/docs/adr/` directories
-- `.kilo/` — check `.kilo/` as a directory directly, not only with recursive globs (`glob(".kilo/**/*")`), because an existing `.kilo/` may contain only ignored files or no matched files. If `.kilo/` is present, Kilo Code Reviewer Agent setup may be offered; if absent, skip that setup entirely
-- If `.kilo/` exists, check `.kilo/agent/code-reviewer.md` — if it exists, the user may be offered to replace it with a new one
-- `.scratch/` — sign that a local-markdown issue tracker convention is already in use
-- Is the `triage` skill installed? (a `triage` skill folder alongside this one, or `triage` in your available skills.) This decides whether Section B runs at all.
+Do not assume missing configuration.
 
-### 2. Present findings and ask
+## 2. Configure
 
-Summarise what's present and what's missing. Then take the sections in order — one section, one answer, then the next.
+Present what exists and what is missing. Ask about each applicable section in order.
 
-Lead each section with the recommended answer so the user can accept it in a word. Give a one-line explainer only when the choice genuinely branches; skip the section entirely when exploration already settled it (Section B when `triage` isn't installed, Section C when there's no monorepo).
+### Issue tracker
 
-**Section A — Issue tracker.**
+Recommend the tracker indicated by the repository remote:
 
-> Explainer: The "issue tracker" is where issues live for this repo. Skills like `to-tickets`, `triage`, `to-spec`, and `qa` read from and write to it — they need to know whether to call `gh issue create`, write a markdown file under `.scratch/`, or follow some other workflow you describe. Pick the place you actually track work for this repo.
+- **GitHub** — use GitHub Issues through `gh`;
+- **GitLab** — use GitLab Issues through `glab`;
+- **Local markdown** — store issues under `.scratch/<feature>/`;
+- **Other** — record the user-provided workflow.
 
-Default posture: these skills were designed for GitHub. If a `git remote` points at GitHub, propose that. If a `git remote` points at GitLab (`gitlab.com` or a self-hosted host), propose GitLab. Otherwise (or if the user prefers), offer:
+Write the result to `docs/agents/issue-tracker.md`.
 
-- **GitHub** — issues live in the repo's GitHub Issues (uses the `gh` CLI)
-- **GitLab** — issues live in the repo's GitLab Issues (uses the [`glab`](https://gitlab.com/gitlab-org/cli) CLI)
-- **Local markdown** — issues live as files under `.scratch/<feature>/` in this repo (good for solo projects or repos without a remote)
-- **Other** (Jira, Linear, etc.) — ask the user to describe the workflow in one paragraph; the skill will record it as freeform prose
+For GitHub and GitLab, leave the template's PR request-surface setting disabled unless the user explicitly changes it later.
 
-Record the choice in `docs/agents/issue-tracker.md`. The GitHub and GitLab templates carry a "PRs as a request surface" flag, defaulted **off** — leave it off and don't raise it; a user who wants external PRs in the triage queue can flip the flag in the file later.
+### Triage labels
 
-**Section B — Triage label vocabulary.** Skip this section entirely if the `triage` skill isn't installed (exploration told you) — an uninstalled skill needs no labels.
+Skip this section when the `triage` skill is not installed.
 
-If it is installed, ask exactly one question:
+Otherwise ask whether to keep these defaults:
 
-> Do you want to keep the default triage labels? (recommended: **yes**)
+- `needs-triage`
+- `needs-info`
+- `ready-for-agent`
+- `ready-for-human`
+- `wontfix`
 
-The defaults are the five canonical roles, each label string equal to its name: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. On **yes**, write them as-is. Only if the user says no — usually because their tracker already uses other names (e.g. `bug:triage` for `needs-triage`) — collect the overrides so `triage` applies existing labels instead of creating duplicates.
+Collect overrides only when requested. Write the mapping to `docs/agents/triage-labels.md`.
 
-**Section C — Skill Configuration Docs.** Ask these as two separate questions, even when the same source answers both:
+### Coding standards
 
-> What should the Coding Standards Doc Reference point to? (recommended: the repo's existing `AGENTS.md`, `CONTRIBUTING.md`, or coding-standards document if one exists)
+Ask:
 
-> What should the Code Verification Doc Reference point to? (recommended: the repo's existing test, typecheck, lint, or release-verification document if one exists)
+> What should the Coding Standards Doc Reference point to?
 
-Record the answers as repo-local Skill Configuration Docs:
+Recommend an existing repository-local source such as `AGENTS.md`, `CONTRIBUTING.md`, or a coding-standards document.
 
-- `docs/agents/coding-standards.md` — stores the Coding Standards Doc Reference and any short notes the user gave.
-- `docs/agents/code-verification.md` — stores the Code Verification Doc Reference and any short notes the user gave.
+Write the selected path, URL, or prose reference and any short notes to `docs/agents/coding-standards.md`.
 
-Never hard-code this repository's absolute path, or any target repository's absolute path, into reusable skill text. Store user-provided repository-local paths, URLs, or prose references exactly as configuration data inside the target repo's `docs/agents/*.md` files.
+### Code verification
 
-**Section D — Kilo Code Reviewer Agent.** Run this section only when exploration found `.kilo/` in the target repo. If `.kilo/` is missing, do not mention or offer Kilo agent setup.
+Ask separately:
 
-When `.kilo/` exists and `.kilo/agent/code-reviewer.md` does not exist, ask:
+> What should the Code Verification Doc Reference point to?
 
-> Do you want to configure a Kilo Code Review Agent for `/code-review`? (recommended: yes)
+Recommend existing documentation for tests, linting, type checks, builds, or release verification.
 
-When `.kilo/` exists and `.kilo/agent/code-reviewer.md` already exists, ask:
+Write the selected path, URL, or prose reference and any short notes to `docs/agents/code-verification.md`.
 
-> A Kilo Code Reviewer Agent already exists. Do you want to replace it with a new one? (recommended: no)
+Do not put absolute repository paths in reusable skill text. Preserve user-provided repository-local paths, URLs, and prose references as configuration data.
 
-If the answer for either the questions above is yes, ask for the model to pin in the Kilo agent. Recommend the current session's model, because it is the user's active model choice and avoids silently switching model families. Record the model in Kilo's `provider/model` format when known. If the user wants no pinned model, omit the `model` field from `.kilo/agent/code-reviewer.md` so Kilo uses the normal selector behavior. If the user gives a display name rather than a provider/model ID, record exactly what the user gave only if that is the format Kilo accepts in the current environment; otherwise ask once for the provider/model ID.
+## 3. Confirm
 
-If yes and either no Code Review Agent file exists or the user approves replacement, prepare the draft content of `.kilo/agent/code-reviewer.md` from this skill's [code-reviewer-agent.md](./code-reviewer-agent.md) template and substitute the selected model if one was selected. Do not write the Kilo agent choice into `docs/agents/`.
+Before writing, show drafts of:
 
-### 3. Confirm and edit
+- the `## Agent skills` block;
+- `docs/agents/issue-tracker.md`;
+- `docs/agents/domain.md`;
+- `docs/agents/coding-standards.md`;
+- `docs/agents/code-verification.md`;
+- `docs/agents/triage-labels.md`, when applicable.
 
-Show the user a draft of:
+Allow the user to revise the drafts.
 
-- The `## Agent skills` block to add to whichever of `CLAUDE.md` / `AGENTS.md` is being edited (see step 4 for selection rules)
-- The contents of `docs/agents/issue-tracker.md`, `docs/agents/domain.md`, `docs/agents/coding-standards.md`, `docs/agents/code-verification.md`, and `docs/agents/triage-labels.md` (the last only when `triage` is installed)
-- The contents of `.kilo/agent/code-reviewer.md` only when `.kilo/` exists, the user accepts Section D, and either the file does not already exist or the user approves replacing it
+## 4. Write
 
-Let them edit before writing.
+Use the existing root instruction file:
 
-### 4. Write
+1. edit `AGENTS.md` when it exists;
+2. otherwise edit `CLAUDE.md` when it exists;
+3. when neither exists, ask which one to create.
 
-**Pick the file to edit:**
+Do not create one when the other already exists.
 
-- If `AGENTS.md` exists, edit it.
-- Else if `CLAUDE.md` exists, edit it.
-- If neither exists, ask the user which one to create — don't pick for them.
+Update an existing `## Agent skills` section in place. Do not duplicate it or overwrite surrounding user content.
 
-Never create `AGENTS.md` when `CLAUDE.md` already exists (or vice versa) — always edit the one that's already there.
-
-If an `## Agent skills` block already exists in the chosen file, update its contents in-place rather than appending a duplicate. Don't overwrite user edits to the surrounding sections.
-
-The block:
+Use this block, omitting Triage labels when the `triage` skill is not installed:
 
 ```markdown
 ## Agent skills
 
 ### Issue tracker
 
-[one-line summary of where issues are tracked]. See `docs/agents/issue-tracker.md`.
+Skills that read or update issues must follow `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
-[one-line summary of the label vocabulary]. See `docs/agents/triage-labels.md`.
+The `triage` skill must follow `docs/agents/triage-labels.md`.
 
 ### Domain docs
 
-[one-line summary of layout — "single-context"]. See `docs/agents/domain.md`.
+Skills that require domain context or architectural decisions must follow
+`docs/agents/domain.md`.
 
 ### Coding standards
 
-[one-line summary of the Coding Standards Doc Reference]. See `docs/agents/coding-standards.md`.
+The `implement`, `code-review`, and `address-review` skills must read and follow
+`docs/agents/coding-standards.md` before evaluating or editing code.
 
 ### Code verification
 
-[one-line summary of the Code Verification Doc Reference]. See `docs/agents/code-verification.md`.
+The `implement` and `address-review` skills must read and follow
+`docs/agents/code-verification.md` when verifying or fixing code changes.
 ```
 
-Include the `### Triage labels` sub-block, and write `docs/agents/triage-labels.md`, only when `triage` is installed and Section B ran. When it isn't, both are omitted.
+Write the configuration files from these templates:
 
-Then write the docs files using the seed templates in this skill folder as a starting point:
+- `issue-tracker-github.md`
+- `issue-tracker-gitlab.md`
+- `issue-tracker-local.md`
+- `triage-labels.md`, when applicable
+- `domain.md`
+- `coding-standards.md`
+- `code-verification.md`
 
-- [issue-tracker-github.md](./issue-tracker-github.md) — GitHub issue tracker
-- [issue-tracker-gitlab.md](./issue-tracker-gitlab.md) — GitLab issue tracker
-- [issue-tracker-local.md](./issue-tracker-local.md) — local-markdown issue tracker
-- [triage-labels.md](./triage-labels.md) — label mapping (only if `triage` is installed)
-- [domain.md](./domain.md) — domain doc consumer rules + layout
-- [coding-standards.md](./coding-standards.md) — Coding Standards Doc Reference
-- [code-verification.md](./code-verification.md) — Code Verification Doc Reference
-- [code-reviewer-agent.md](./code-reviewer-agent.md) — template for `.kilo/agent/code-reviewer.md` (only when `.kilo/` exists, the user accepts Section D, and replacement rules allow writing it)
+For another issue tracker, create `docs/agents/issue-tracker.md` from the user-provided workflow.
 
-For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch using the user's description.
+## 5. Finish
 
-### 5. Done
+Report:
 
-Tell the user the setup is complete and which engineering skills will now read from these files. Mention they can edit `docs/agents/*.md` directly later — re-running this skill is only necessary if they want to switch issue trackers or restart from scratch.
+- the instruction file updated;
+- configuration files created or changed;
+- which skills consume each file; and
+- any missing or unresolved configuration.
+
+Mention that users may edit `docs/agents/*.md` directly. Re-run this skill only when the repository configuration needs to be rebuilt or substantially changed.
