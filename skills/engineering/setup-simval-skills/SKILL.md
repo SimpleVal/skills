@@ -1,73 +1,75 @@
 ---
 name: setup-simval-skills
-description: Configure this repo for the engineering skills — set up its issue tracker, triage label vocabulary, and domain doc layout. Run once before first use of the other engineering skills.
+description: Configure this repository for the Simval engineering skills.
 ---
 
 # Setup Simval Skills
 
-Inspect the repository, collect and confirm each configuration choice, summarize the complete configuration for final approval, then apply it.
+Inspect the repository, confirm each configuration choice, summarize the final configuration, then apply it.
 
-Do not skip a configuration question because the repository suggests an answer. Use repository evidence to recommend an answer, but let the user confirm or choose another option.
+Use repository evidence to recommend answers, but never treat an inferred choice as approved.
 
 ## 1. Inspect
 
 Inspect:
 
 - `git remote -v` and `.git/config`;
-- root `AGENTS.md` and `CLAUDE.md`;
-- root `CONTEXT.md`;
-- `docs/adr/` and `src/*/docs/adr/`;
+- root `AGENTS.md` or `CLAUDE.md`;
+- `CONTEXT.md`, `docs/adr/`, and `src/*/docs/adr/`;
 - `.scratch/`;
-- whether the `triage` skill is installed;
-- existing repository documentation relevant to coding standards and verification;
+- installed skills;
+- existing development and verification documentation;
 - existing files under `docs/agents/`.
 
-Use the inspection to identify:
-
-- existing configuration;
-- missing configuration;
-- likely recommendations;
-- conflicts with configuration already present.
-
-Do not assume that missing or inferred configuration is approved.
+Identify existing configuration, missing configuration, likely recommendations, and conflicts.
 
 ## 2. Configure
 
-Ask about each applicable section below in order.
+Ask one section at a time. For each section:
 
-For each section:
-
-1. briefly state the relevant repository evidence;
-2. provide a recommended answer;
-3. ask the user to confirm the recommendation or select another answer;
+1. state the relevant evidence briefly;
+2. recommend an answer;
+3. ask the user to confirm or choose another option;
 4. record the confirmed choice.
 
-Ask one section at a time. Do not modify files during this step.
+Do not modify files yet.
+
+### Repository documentation
+
+Inspect project scopes, development guides, verification documents, and their existing references.
+
+Recommend running `/lint-docs` when canonical documentation is missing, stale, incomplete, or poorly mapped.
+
+Ask whether to run it.
+
+When accepted:
+
+1. run `/lint-docs` for the repository;
+2. resolve any decisions it raises;
+3. resume setup using the resulting documents and scope mappings.
+
+When declined, continue with the existing documentation.
 
 ### Issue tracker
 
-Determine the likely tracker from the repository remote and existing documentation.
+Infer the likely tracker from the repository and recommend one of:
 
-Recommend one of:
+- **GitHub** — GitHub Issues through `gh`;
+- **GitLab** — GitLab Issues through `glab`;
+- **Local markdown** — `.scratch/<feature>/`;
+- **Other** — user-provided workflow.
 
-- **GitHub** — use GitHub Issues through `gh`;
-- **GitLab** — use GitLab Issues through `glab`;
-- **Local markdown** — store issues under `.scratch/<feature>/`;
-- **Other** — use a user-provided workflow.
+For **Other**, collect enough detail for skills to read, create, and update issues.
 
-Ask the user to confirm the recommendation or choose another tracker.
+For GitHub and GitLab, keep PR or MR request-surface support disabled unless explicitly enabled.
 
-When **Other** is selected, collect enough detail to describe how skills should read, create, and update issues.
-
-For GitHub and GitLab, leave the template's PR request-surface setting disabled unless the user explicitly enables it.
-
-The confirmed result will be written to `docs/agents/issue-tracker.md`.
+Write the confirmed result to `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
-Skip this section when the `triage` skill is not installed.
+Skip when the `triage` skill is not installed.
 
-Otherwise inspect existing label configuration and recommend keeping or changing these defaults:
+Otherwise confirm the mapping for:
 
 - `needs-triage`
 - `needs-info`
@@ -75,110 +77,77 @@ Otherwise inspect existing label configuration and recommend keeping or changing
 - `ready-for-human`
 - `wontfix`
 
-Ask the user to confirm the recommended mapping or provide overrides.
-
-The confirmed mapping will be written to `docs/agents/triage-labels.md`.
+Write it to `docs/agents/triage-labels.md`.
 
 ### Domain docs
 
-Inspect existing domain documentation, including:
+Inspect `CONTEXT.md`, ADR locations, and `docs/agents/domain.md`.
 
-- `CONTEXT.md`;
-- `docs/adr/`;
-- `src/*/docs/adr/`;
-- existing `docs/agents/domain.md`.
+Recommend and confirm the domain-document layout.
 
-Recommend the domain-document layout that best matches the repository.
+Write it to `docs/agents/domain.md`.
 
-Ask the user to confirm the recommendation or choose another layout.
+### Development guides
 
-The confirmed result will be written to `docs/agents/domain.md`.
+Inspect source scopes and canonical guides produced or discovered above.
 
-### Coding standards
+Recommend scoped mappings containing:
 
-Inspect repository-local sources such as:
+- source path or pattern;
+- canonical guide path;
+- dependent guides to read, when required;
+- optional scope notes.
 
-- `AGENTS.md`;
-- `CLAUDE.md`;
-- `CONTRIBUTING.md`;
-- development documentation;
-- dedicated coding-standard files;
-- existing `docs/agents/coding-standards.md`.
+The router must state that agents identify the affected scope first and read only matching references.
 
-Recommend the most authoritative applicable source.
-
-Ask:
-
-> What should the Coding Standards Doc Reference point to?
-
-Let the user confirm the recommendation or provide a repository-local path, URL, or prose reference with optional short notes.
-
-The confirmed result will be written to `docs/agents/coding-standards.md`.
+Write the confirmed map to `docs/agents/development-guides.md`.
 
 ### Code verification
 
-Inspect documentation and configuration for:
+Inspect tests, linting, formatting, type checks, builds, deployment checks, scripts, and existing verification docs.
 
-- tests;
-- linting;
-- formatting;
-- type checks;
-- builds;
-- release or deployment verification;
-- existing `docs/agents/code-verification.md`.
+Recommend scoped mappings containing:
 
-Recommend the most authoritative applicable source.
+- source path or pattern;
+- canonical verification document;
+- optional scope notes.
 
-Ask:
+Keep the shared verification process in this reference file. Keep executable commands in the canonical verification documents.
 
-> What should the Code Verification Doc Reference point to?
+Write the confirmed result to `docs/agents/code-verification.md`.
 
-Let the user confirm the recommendation or provide a repository-local path, URL, or prose reference with optional short notes.
-
-The confirmed result will be written to `docs/agents/code-verification.md`.
-
-Do not put absolute repository paths in reusable skill text. Preserve user-provided repository-local paths, URLs, and prose references as configuration data.
+Do not put absolute repository paths in reusable skill text.
 
 ## 3. Confirm
 
-After every applicable section has been resolved, show a concise configuration summary containing:
+Show a concise summary containing:
 
-- selected issue tracker and workflow;
-- selected triage-label mapping, when applicable;
-- selected domain-document layout;
-- selected coding-standards reference;
-- selected code-verification reference;
-- root instruction file that will be updated;
-- configuration files that will be created or changed.
+- issue tracker and workflow;
+- triage-label mapping, when applicable;
+- domain-document layout;
+- development-guide mappings;
+- verification mappings;
+- root instruction file to update;
+- files to create or change;
+- conflicts with existing configuration.
 
-Clearly identify any choice that replaces or conflicts with existing configuration.
+Do not show draft file contents or template previews.
 
-Do not show:
-
-- draft file contents;
-- template contents;
-- the proposed `## Agent skills` block;
-- configuration-file previews.
-
-Ask the user for final confirmation before modifying any file.
-
-If the user changes a choice, update the summary and obtain final confirmation again.
+Ask for final confirmation. If any choice changes, update the summary and confirm again.
 
 ## 4. Apply
 
-Apply changes only after the user confirms the configuration summary.
+Apply changes only after final confirmation.
 
 Use the existing root instruction file:
 
-1. edit `AGENTS.md` when it exists;
-2. otherwise edit `CLAUDE.md` when it exists;
-3. when neither exists, ask which one to create.
+1. `AGENTS.md` when present;
+2. otherwise `CLAUDE.md` when present;
+3. otherwise ask which one to create.
 
-Do not create one when the other already exists.
+Update an existing `## Agent skills` section in place. Preserve unrelated content.
 
-Update an existing `## Agent skills` section in place. Do not duplicate it or overwrite surrounding user content.
-
-Use this block, omitting Triage labels when the `triage` skill is not installed:
+Use this block, omitting sections that do not apply:
 
 ```markdown
 ## Agent skills
@@ -193,44 +162,49 @@ The `triage` skill must follow `docs/agents/triage-labels.md`.
 
 ### Domain docs
 
-Skills that require domain context or architectural decisions must follow
+Skills requiring domain context or architectural decisions must follow
 `docs/agents/domain.md`.
 
-### Coding standards
+### Development guides
 
-The `implement`, `code-review`, and `address-review` skills must read and follow
-`docs/agents/coding-standards.md` before evaluating or editing code.
+Skills that design, plan, implement, review, or modify code must use
+`docs/agents/development-guides.md` as a scope router.
+
+Read only the guides mapped to the affected source scopes.
 
 ### Code verification
 
-The `implement` and `address-review` skills must read and follow
-`docs/agents/code-verification.md` when verifying or fixing code changes.
+Skills that verify or fix code must use `docs/agents/code-verification.md` as a
+scope router and read only references mapped to the affected source scopes.
 ```
 
-Write the confirmed configuration using these templates:
+Use these templates:
 
-- `issue-tracker-github.md`;
-- `issue-tracker-gitlab.md`;
-- `issue-tracker-local.md`;
-- `triage-labels.md`, when applicable;
-- `domain.md`;
-- `coding-standards.md`;
-- `code-verification.md`.
+- `issue-tracker-github.md`
+- `issue-tracker-gitlab.md`
+- `issue-tracker-local.md`
+- `triage-labels.md`, when applicable
+- `domain.md`
+- `development-guides.md`
+- `code-verification.md`
 
-For another issue tracker, create `docs/agents/issue-tracker.md` from the confirmed user-provided workflow.
+`/lint-docs` uses these additional templates for canonical documents:
 
-Preserve unrelated existing content. Update existing configuration files in place when practical.
+- `development-guide-canonical.md`
+- `code-verification-canonical.md`
+
+For another issue tracker, create `docs/agents/issue-tracker.md` from the confirmed workflow.
+
+Update existing files in place when practical.
 
 ## 5. Finish
 
 Report:
 
-- the instruction file updated;
+- instruction file updated;
 - configuration files created or changed;
-- which skills consume each file;
-- any configuration that was preserved unchanged;
-- any missing or unresolved configuration.
+- skills consuming each file;
+- preserved configuration;
+- unresolved configuration.
 
-Do not repeat the full configuration-file contents unless the user requests them.
-
-Mention that users may edit `docs/agents/*.md` directly. Re-run this skill only when the repository configuration needs to be rebuilt or substantially changed.
+Do not repeat full file contents unless requested.

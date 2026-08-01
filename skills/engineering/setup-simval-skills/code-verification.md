@@ -1,14 +1,20 @@
-# Code Verification Doc Reference
+# Code Verification
 
-Repository verification guidance used by skills that modify and verify code.
+Identify the affected source scopes, then read only their applicable references.
 
-## Reference
+Do not load every document listed here.
 
-<replace with the selected repository-local path, URL, or prose reference>
+## References
 
-## Failure Handling
+### <Scope>
 
-Run the applicable verification checks.
+- Source: `<repository-local path or pattern>`
+- Reference: `<canonical verification document>`
+- Notes: `<scope notes, or None>`
+
+## Process
+
+Run the applicable affected checks.
 
 For each failure:
 
@@ -22,7 +28,3 @@ If a resolved failure returns, treat it as a regression and allow one new fix at
 Continue with independent checks after a failure becomes blocked.
 
 After affected checks pass, run the complete required verification set. Finish when it passes or all remaining failures are blocked.
-
-## Notes
-
-<replace with user-provided notes, or `None`>

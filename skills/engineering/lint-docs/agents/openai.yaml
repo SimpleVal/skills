@@ -1,0 +1,5 @@
+interface:
+  display_name: "Lint Docs"
+  short_description: "Lint documentation files in this repo"
+policy:
+  allow_implicit_invocation: false
