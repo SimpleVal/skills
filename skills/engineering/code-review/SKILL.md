@@ -32,11 +32,7 @@ Stop if the selected scope contains no changes.
 
 ## Guidance
 
-Read `docs/agents/coding-standards.md` first when present. Also follow:
-
-- repository-level instructions;
-- guidance referenced by the coding standards;
-- other applicable repository documentation.
+Read `docs/agents/development-guides.md` and follow only the references applicable to the selected changes. Also follow repository-level instructions and referenced guidance.
 
 Use `docs/agents/issue-tracker.md` when available to retrieve referenced issues. Continue without missing guidance and report the omission.
 
@@ -81,7 +77,7 @@ Use isolated parallel sub-agents when available. Otherwise perform the reviews s
 
 Review every selected change against repository guidance and the smell baseline.
 
-For documented-standard violations, cite the source file and rule. For smells, name the smell and explain why it applies.
+For documented-guidance violations, cite the source file and rule. For smells, name the smell and explain why it applies.
 
 ### Spec
 

@@ -46,7 +46,7 @@ When accepted:
 
 1. run `/lint-docs` for the repository;
 2. resolve any decisions it raises;
-3. resume setup using the resulting documents and scope mappings.
+3. resume setup using the resulting canonical documents and routing recommendations.
 
 When declined, continue with the existing documentation.
 
@@ -187,11 +187,6 @@ Use these templates:
 - `domain.md`
 - `development-guides.md`
 - `code-verification.md`
-
-`/lint-docs` uses these additional templates for canonical documents:
-
-- `development-guide-canonical.md`
-- `code-verification-canonical.md`
 
 For another issue tracker, create `docs/agents/issue-tracker.md` from the confirmed workflow.
 

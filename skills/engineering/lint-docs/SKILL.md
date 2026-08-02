@@ -23,8 +23,8 @@ When routers or mappings are missing, inspect the repository, propose scoped doc
 
 For each missing or substantially restructured canonical document:
 
-- use [development-guide-canonical.md](./development-guide-canonical.md) for files under `docs/development/`;
-- use [code-verification-canonical.md](./code-verification-canonical.md) for files under `docs/verification/`.
+- use `development-guide-canonical.md` for files under `docs/development/`;
+- use `code-verification-canonical.md` for files under `docs/verification/`.
 
 Read the applicable template before creating or restructuring the document. Preserve its intent, adapt headings to the scope, and omit irrelevant sections. Do not copy placeholder text.
 

@@ -2,18 +2,14 @@
 
 Run from: `<working directory>`
 
-## Affected changes
+## Commands
+
+### <Purpose>
 
 ```sh
-<canonical affected-check command>
+<existing canonical command>
 ```
 
-## Complete verification
+<When this command applies, if not obvious.>
 
-```sh
-<canonical complete verification command>
-```
-
-## Additional checks
-
-<Only independently required commands that currently exist. Omit when unnecessary.>
+Repeat `### <Purpose>` only for commands that currently exist. Omit irrelevant commands and placeholder text.

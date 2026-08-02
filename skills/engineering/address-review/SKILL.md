@@ -7,18 +7,17 @@ Address every finding in a code-review report.
 
 Do not assume the report is correct. Repository guidance, the current code, and the confirmed specification take precedence.
 
-Read and follow:
+Before editing:
 
-- `docs/agents/coding-standards.md`;
-- `docs/agents/code-verification.md`;
-- applicable repository instructions and referenced guidance.
+1. read `docs/agents/development-guides.md` and follow only the references applicable to the files in scope;
+2. read `docs/agents/code-verification.md` and follow only the references applicable to the files in scope;
+3. follow repository-level instructions and referenced guidance.
 
 Report missing guidance.
 
 ## Input
 
-Use the report path supplied by the user, otherwise `./scratch/code-review.md` when present. Also accept pasted findings.
-Stop if no findings are available.
+Use the report path supplied by the user, otherwise `./scratch/code-review.md` when present. Also accept pasted findings. Stop if no findings are available.
 
 Validate the report context against the current repository.
 
@@ -26,14 +25,14 @@ Validate the report context against the current repository.
 
 If repository changes already exist, ask the user to choose:
 
-1.  stage them with `git add -A`; or
-2.  continue without staging.
+1. stage them with `git add -A`; or
+2. continue without staging.
 
 Preserve unrelated changes.
 
 ## Address Findings
 
-Evaluate every finding against repository guidance, the code, the reviewed changes, the specification when available, and relevant verification evidence.
+Evaluate every finding against repository guidance, the code, reviewed changes, the specification when available, and relevant verification evidence.
 
 Classify each as:
 
@@ -49,7 +48,7 @@ Use `/tdd` at pre-agreed seams when available and applicable. Report when it can
 
 ## Verify
 
-Run affected verification after related fixes, then complete verification after all accepted findings are addressed, following `docs/agents/code-verification.md`.
+Run affected verification after related fixes, then complete applicable verification, following `docs/agents/code-verification.md`.
 
 Reinspect each accepted finding and mark it resolved only when supported by the code and verification results.
 
