@@ -1,6 +1,8 @@
 ---
 name: setup-simval-skills
 description: Configure this repository for the Simval engineering skills.
+metadata:
+  version: "1.0.0"
 ---
 
 # Setup Simval Skills

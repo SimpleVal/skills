@@ -1,6 +1,8 @@
 ---
 name: refine-spec
 description: Refine software product or feature ideas into lean product requirements specifications. Use for user-facing digital products to challenge and clarify business requirements, users, journeys, UX behavior, scope, business rules, edge cases, success criteria, and high-level technical direction. Also use to refine an existing or child feature spec. Excludes detailed architecture, infrastructure, API/database design, deployment, and implementation design.
+metadata:
+  version: "1.0.0"
 ---
 
 # Refine Spec

@@ -1,6 +1,8 @@
 ---
 name: init-docs
 description: Initialize or maintain lean project documentation for AI-assisted development, including AGENTS.md, README.md, architecture, coding standards, and code verification guidance.
+metadata:
+  version: "1.0.0"
 ---
 
 # Init Docs

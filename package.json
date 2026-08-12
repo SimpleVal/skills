@@ -5,6 +5,7 @@
   "description": "Personal skill library for AI coding agents",
   "scripts": {
     "test": "node scripts/verify-skill-docs.js",
-    "sync-skills": "node scripts/sync-skills.js"
+    "sync-skills": "node scripts/sync-skills.js",
+    "set-skill-versions": "node scripts/set-skill-versions.js"
   }
 }

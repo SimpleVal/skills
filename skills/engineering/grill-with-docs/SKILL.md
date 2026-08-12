@@ -1,6 +1,8 @@
 ---
 name: grill-with-docs
 description: Sharpen a plan or design through a relentless interview while updating the domain glossary and recording qualifying ADRs.
+metadata:
+  version: "1.0.0"
 ---
 
 Run a `/grilling` session, using the `/domain-modeling` skill.

@@ -1,6 +1,8 @@
 ---
 name: implement
 description: "Implement a piece of work based on a confirmed Shared Design, spec, or set of tickets."
+metadata:
+  version: "1.0.0"
 ---
 
 Implement the work identified by the user. Treat the designated Shared Design, specification, or tickets as the source of truth. Stop and report material contradictions or missing decisions rather than resolving them silently.

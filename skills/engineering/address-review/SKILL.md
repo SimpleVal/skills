@@ -1,6 +1,8 @@
 ---
 name: address-review
 description: "Critically evaluate every code-review finding, fix accepted findings, and verify the resulting changes."
+metadata:
+  version: "1.0.0"
 ---
 
 Address every finding in a code-review report.

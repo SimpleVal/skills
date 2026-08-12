@@ -3,7 +3,14 @@ const path = require("node:path");
 
 const ROOT = path.resolve(__dirname, "..");
 const SKILLS_DIR = path.join(ROOT, "skills");
+const PACKAGE_FILE = path.join(ROOT, "package.json");
 const DISPLAY_NAME_EXCEPTIONS = new Map([["tdd", "TDD"]]);
+const PACKAGE_VERSION = JSON.parse(read(PACKAGE_FILE)).version;
+
+assert(
+  typeof PACKAGE_VERSION === "string" && PACKAGE_VERSION.trim(),
+  "package.json must contain a non-empty version string",
+);
 
 function read(filePath) {
   return fs.readFileSync(filePath, "utf8");
@@ -119,6 +126,10 @@ function verifySkill(skillDirectory) {
   assert(
     frontmatter.name === skillId,
     `${relative(skillFile)} name must be ${skillId}`,
+  );
+  assert(
+    frontmatter.metadata && frontmatter.metadata.version === PACKAGE_VERSION,
+    `${relative(skillFile)} metadata.version must be ${JSON.stringify(PACKAGE_VERSION)}`,
   );
 
   const agentFile = path.join(skillDirectory, "agents", "openai.yaml");
