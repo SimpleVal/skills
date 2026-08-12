@@ -9,6 +9,20 @@ Turn a rough idea, partial specification, existing PRD, or child feature spec in
 
 Focus on business requirements, product behavior, UI/UX, realistic user scenarios, and high-level technical direction. Leave detailed solution design to specialized skills.
 
+## Align with domain language
+
+At the start, read the repository's `CONTEXT.md` when available and use its canonical domain language throughout the discussion and specification.
+
+Do not edit `CONTEXT.md` from this skill.
+
+When refinement exposes a missing, ambiguous, or conflicting domain term:
+
+1. surface the terminology issue immediately;
+2. delegate resolution and any `CONTEXT.md` update to `$domain-modeling` when available;
+3. continue refinement using the resolved terminology.
+
+Do not duplicate domain-modeling work inside this skill.
+
 ## Refine interactively
 
 First assess what is already known. Ask only about missing, weak, conflicting, or risky areas.
@@ -17,6 +31,7 @@ First assess what is already known. Ask only about missing, weak, conflicting, o
 - Ask 1–3 closely related questions per round.
 - Keep resolved decisions without repeating them; revisit only if new information conflicts.
 - Challenge vague answers until behavior, users, boundaries, scenarios, or outcomes are concrete.
+- Challenge terminology that conflicts with `CONTEXT.md` rather than silently introducing synonyms.
 - If vagueness comes from excessive scope, recommend decomposition instead of continuing broad questioning.
 - Use realistic scenarios to expose missing states, alternate paths, invalid actions, permissions, interruptions, and user-visible failures.
 - Do not manufacture requirements merely to complete a checklist.
@@ -43,6 +58,7 @@ Ensure relevant areas are sufficiently defined:
 - high-level technical constraints or likely technology choices.
 
 Treat unresolved gaps as:
+
 - **blocking** — continue refinement;
 - **non-blocking** — retain as an assumption, risk, or open question.
 
@@ -53,6 +69,7 @@ Do not finalize with blocking gaps.
 Recommend decomposition when independent journeys, users, capabilities, objectives, or success criteria make the scope difficult to reason about or keep concise.
 
 When proposing a split:
+
 1. explain why;
 2. propose child-feature boundaries;
 3. show a Mermaid feature map when useful;
@@ -81,6 +98,7 @@ For an approved decomposition, provide separate lightweight child specs at:
 `features/<feature-name>-spec.md`
 
 Each child spec should contain only enough context for a later refinement session:
+
 - purpose and business value;
 - users;
 - scope and boundaries;
@@ -94,4 +112,4 @@ Do not invent detailed child requirements before that feature is refined.
 
 ## Boundary
 
-Output specification content and suggested paths only. File creation, GitHub issues, tickets, and other publishing actions belong to separate requests.
+Output specification content and suggested paths only. File creation, GitHub issues, tickets, domain-model updates, and other publishing actions belong to separate skills or requests.

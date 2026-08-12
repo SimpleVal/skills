@@ -7,17 +7,9 @@ Address every finding in a code-review report.
 
 Do not assume the report is correct. Repository guidance, the current code, and the confirmed specification take precedence.
 
-Before editing:
-
-1. read `docs/agents/development-guides.md` and follow only the references applicable to the files in scope;
-2. read `docs/agents/code-verification.md` and follow only the references applicable to the files in scope;
-3. follow repository-level instructions and referenced guidance.
-
-Report missing guidance.
-
 ## Input
 
-Use the report path supplied by the user, otherwise `./scratch/code-review.md` when present. Also accept pasted findings. Stop if no findings are available.
+Use the report path supplied by the user. Also accept pasted findings. Stop if no findings are available.
 
 Validate the report context against the current repository.
 
@@ -48,7 +40,7 @@ Use `/tdd` at pre-agreed seams when available and applicable. Report when it can
 
 ## Verify
 
-Run affected verification after related fixes, then complete applicable verification, following `docs/agents/code-verification.md`.
+Run affected verification after related fixes, then complete applicable verification following repository code verifications.
 
 Reinspect each accepted finding and mark it resolved only when supported by the code and verification results.
 

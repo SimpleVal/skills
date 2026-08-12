@@ -8,7 +8,7 @@ See [skills/engineering](skills/engineering/README.md) for the engineering bucke
 
 ### User-invoked
 
-- [grill-design](skills/engineering/grill-design/SKILL.md) - Sharpen a plan or design through a relentless interview while updating the domain glossary and recording qualifying ADRs.
+- [grill-with-docs](skills/engineering/grill-with-docs/SKILL.md) - Sharpen a plan or design through a relentless interview while updating the domain glossary and recording qualifying ADRs.
 - [implement](skills/engineering/implement/SKILL.md) - Build work from a confirmed Shared Design, spec, or ticket set; verify it; review it; and commit it.
 - [setup-simval-skills](skills/engineering/setup-simval-skills/SKILL.md) - Configure a repository for the engineering skill workflows.
 - [to-spec](skills/engineering/to-spec/SKILL.md) - Turn the current conversation into a tracker-ready spec.
@@ -27,7 +27,7 @@ See [skills/productivity](skills/productivity/README.md) for the productivity bu
 
 ### User-invoked
 
-- [grill-me](skills/productivity/grill-me/SKILL.md) - Stress-test a plan or decision one question at a time.
+- [grilling](skills/productivity/grilling/SKILL.md) - Stress-test a plan or decision one question at a time.
 - [handoff](skills/productivity/handoff/SKILL.md) - Summarize a session into a handoff document for the next agent.
 
 ### Model-invoked

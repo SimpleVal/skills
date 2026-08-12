@@ -3,7 +3,7 @@ name: to-spec
 description: Turn the current conversation into a spec and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed.
 ---
 
-This skill takes the current conversation context and codebase understanding and produces a spec (you may know this document as a PRD). Do NOT interview the user — just synthesize what you already know.
+This skill takes the current conversation context and codebase understanding and produces a spec. Do NOT interview the user — just synthesize what you already know.
 
 The issue tracker and triage label vocabulary should have been provided to you — run `/setup-simval-skills` if not.
 
@@ -21,15 +21,11 @@ Check with the user that these seams match their expectations.
 
 ## Problem Statement
 
-Describe the problem from the user's perspective.
-
-Prefer concise bullet points for readability. Prose is allowed when it communicates the problem more clearly.
+The problem that the user is facing, from the user's perspective.
 
 ## Solution
 
-Describe the solution from the user's perspective.
-
-Prefer concise bullet points for readability. Prose is allowed when it communicates the solution more clearly.
+The solution to the problem, from the user's perspective.
 
 ## User Stories
 
@@ -57,7 +53,7 @@ A list of implementation decisions that were made. This can include:
 
 Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
 
-Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it within the relevant decision and note briefly that it came from a prototype. Trim to the decision-rich parts — not a working demo, just the important details.
+Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it within the relevant decision and note briefly that it came from a prototype. Trim to the decision-rich parts — not a working demo, just the important bits.
 
 ## Testing Decisions
 

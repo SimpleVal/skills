@@ -3,17 +3,9 @@ name: implement
 description: "Implement a piece of work based on a confirmed Shared Design, spec, or set of tickets."
 ---
 
-Implement the work identified by the user.
+Implement the work identified by the user. Treat the designated Shared Design, specification, or tickets as the source of truth. Stop and report material contradictions or missing decisions rather than resolving them silently.
 
-Treat the designated Shared Design, specification, or tickets as the source of truth. Stop and report material contradictions or missing decisions rather than resolving them silently.
-
-Before editing:
-
-1. read `docs/agents/development-guides.md` and follow only the references applicable to the files in scope;
-2. read `docs/agents/code-verification.md` and follow only the references applicable to the files in scope;
-3. follow repository-level instructions and referenced guidance.
-
-Continue when guidance is missing, but report the omission.
+Follow only the repository document references applicable to the files in scope.
 
 ## Before Editing
 
@@ -34,9 +26,7 @@ When an item cannot be resolved safely, mark it blocked and continue with indepe
 
 ## Verify
 
-Run the complete applicable verification required by `docs/agents/code-verification.md`. Report unresolved blockers.
-
-Do not create a commit.
+Run the complete applicable verification. Report unresolved blockers.
 
 ## Final Result
 
@@ -47,3 +37,4 @@ Report:
 - missing guidance;
 - `/tdd` limitations; and
 - blocked or unresolved items.
+- Commit your work to the current branch if there are no blocked or unresolved items.

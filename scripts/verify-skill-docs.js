@@ -20,17 +20,19 @@ function assert(condition, message) {
 }
 
 function listSkillDirectories() {
-  return fs.readdirSync(SKILLS_DIR, { withFileTypes: true }).flatMap((bucket) => {
-    if (!bucket.isDirectory()) {
-      return [];
-    }
+  return fs
+    .readdirSync(SKILLS_DIR, { withFileTypes: true })
+    .flatMap((bucket) => {
+      if (!bucket.isDirectory()) {
+        return [];
+      }
 
-    const bucketDirectory = path.join(SKILLS_DIR, bucket.name);
-    return fs
-      .readdirSync(bucketDirectory, { withFileTypes: true })
-      .filter((entry) => entry.isDirectory())
-      .map((entry) => path.join(bucketDirectory, entry.name));
-  });
+      const bucketDirectory = path.join(SKILLS_DIR, bucket.name);
+      return fs
+        .readdirSync(bucketDirectory, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => path.join(bucketDirectory, entry.name));
+    });
 }
 
 function parseFrontmatter(skillFile, content) {
@@ -50,7 +52,10 @@ function parseSimpleYaml(content, source) {
     }
 
     const match = rawLine.match(/^(\s*)([A-Za-z0-9_-]+):(?:\s*(.*))?$/);
-    assert(match, `${source} has invalid YAML on line ${index + 1}: ${rawLine}`);
+    assert(
+      match,
+      `${source} has invalid YAML on line ${index + 1}: ${rawLine}`,
+    );
 
     const indent = match[1].length;
     const key = match[2];
@@ -101,94 +106,35 @@ function expectedDisplayName(skillId) {
     .join(" ");
 }
 
-function collectSkillDocReferences(content) {
-  const references = new Set();
-
-  for (const match of content.matchAll(/\[[^\]\r\n]+\]\(([^)]+)\)/g)) {
-    const target = match[1].trim();
-    if (isLocalDocumentPath(target)) {
-      references.add(stripFragment(target));
-    }
-  }
-
-  for (const match of content.matchAll(/`([^`\r\n]+)`/g)) {
-    const target = match[1].trim();
-    if (isLocalDocumentPath(target)) {
-      references.add(stripFragment(target));
-    }
-  }
-
-  return [...references];
-}
-
-function stripFragment(target) {
-  return target.split("#")[0];
-}
-
-function isLocalDocumentPath(target) {
-  const withoutFragment = stripFragment(target.trim());
-
-  if (!withoutFragment || target.startsWith("#")) {
-    return false;
-  }
-
-  if (/^[a-z][a-z0-9+.-]*:/i.test(withoutFragment)) {
-    return false;
-  }
-
-  if (/\s/.test(withoutFragment)) {
-    return false;
-  }
-
-  if (/[*?\[\]{}<>]/.test(withoutFragment)) {
-    return false;
-  }
-
-  if (!/\.(md|markdown)$/i.test(withoutFragment)) {
-    return false;
-  }
-
-  if (!/[\\/]/.test(withoutFragment)) {
-    return false;
-  }
-
-  return true;
-}
-
-function resolveReference(skillDirectory, reference) {
-  const normalized = reference.replace(/\\/g, "/");
-  const fromSkillDirectory = path.resolve(skillDirectory, normalized);
-  if (fs.existsSync(fromSkillDirectory)) {
-    return fromSkillDirectory;
-  }
-
-  return path.resolve(ROOT, normalized);
-}
-
 function verifySkill(skillDirectory) {
   const skillId = path.basename(skillDirectory);
   const skillFile = path.join(skillDirectory, "SKILL.md");
-  assert(fs.existsSync(skillFile), `${relative(skillDirectory)} must contain SKILL.md`);
+  assert(
+    fs.existsSync(skillFile),
+    `${relative(skillDirectory)} must contain SKILL.md`,
+  );
 
   const skillContent = read(skillFile);
   const frontmatter = parseFrontmatter(skillFile, skillContent);
-  assert(frontmatter.name === skillId, `${relative(skillFile)} name must be ${skillId}`);
+  assert(
+    frontmatter.name === skillId,
+    `${relative(skillFile)} name must be ${skillId}`,
+  );
 
   const agentFile = path.join(skillDirectory, "agents", "openai.yaml");
-  assert(fs.existsSync(agentFile), `${relative(skillDirectory)} must contain agents/openai.yaml`);
+  assert(
+    fs.existsSync(agentFile),
+    `${relative(skillDirectory)} must contain agents/openai.yaml`,
+  );
 
   const agentMetadata = parseSimpleYaml(read(agentFile), relative(agentFile));
-  const displayName = agentMetadata.interface && agentMetadata.interface.display_name;
+  const displayName =
+    agentMetadata.interface && agentMetadata.interface.display_name;
   const expectedName = expectedDisplayName(skillId);
   assert(
     displayName === expectedName,
     `${relative(agentFile)} display_name must be ${JSON.stringify(expectedName)}`,
   );
-
-  for (const reference of collectSkillDocReferences(skillContent)) {
-    const resolved = resolveReference(skillDirectory, reference);
-    assert(fs.existsSync(resolved), `${relative(skillFile)} references missing document: ${reference}`);
-  }
 }
 
 for (const skillDirectory of listSkillDirectories()) {

@@ -44,8 +44,8 @@ _Avoid_: Disagreed feedback, rejected review item
 A skill bucket whose skills must be advertised in repository README files and grouped by invocation mode.
 _Avoid_: Public bucket, published bucket
 
-**Grill Design**:
-The user-invoked engineering skill, internally named `grill-design`, that sharpens a proposed design through a Grill Me interview while applying Domain Modeling. “Design” alone refers to the activity or its result, not the skill.
+**Grill with Docs**:
+The user-invoked engineering skill, internally named `grill-with-docs`, that sharpens a proposed design through a Grill Me interview while applying Domain Modeling. “Design” alone refers to the activity or its result, not the skill.
 _Avoid_: Design skill, Design
 
 **User-invoked Skill**:
