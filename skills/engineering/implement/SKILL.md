@@ -2,41 +2,23 @@
 name: implement
 description: "Implement a piece of work based on a confirmed Shared Design, spec, or set of tickets."
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
-Implement the work identified by the user. Treat the designated Shared Design, specification, or tickets as the source of truth. Stop and report material contradictions or missing decisions rather than resolving them silently.
+Implement the work described by the user in the spec or tickets.
 
-Follow only the repository document references applicable to the files in scope.
+Use /tdd where possible, at pre-agreed seams.
 
-## Before Editing
+Run typechecking regularly, single test files regularly, and the full test suite once at the end.
 
-Check for existing repository changes. If any exist, ask the user to choose:
+Once done, use /code-review to review the work.
 
-1. stage all current changes with `git add -A`; or
-2. continue without staging.
+Commit your work to the current branch.
 
-Do not edit until the user chooses. Preserve unrelated changes.
+If the implementation is related to an issue ticket, use the following commit message format:
 
-## Implement
+`#{issueId} - {Short summary of the commit}`
 
-Make the smallest correct change within the confirmed scope.
+For example:
 
-Use `/tdd` at pre-agreed seams when available and applicable. Otherwise continue and report the limitation.
-
-When an item cannot be resolved safely, mark it blocked and continue with independent work.
-
-## Verify
-
-Run the complete applicable verification. Report unresolved blockers.
-
-## Final Result
-
-Report:
-
-- changes made;
-- verification performed and results;
-- missing guidance;
-- `/tdd` limitations; and
-- blocked or unresolved items.
-- Commit your work to the current branch if there are no blocked or unresolved items.
+`#123 - Add validation for user registration`
