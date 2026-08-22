@@ -8,18 +8,18 @@ See [skills/engineering](skills/engineering/README.md) for the engineering bucke
 
 ### User-invoked
 
-- [grill-with-docs](skills/engineering/grill-with-docs/SKILL.md) - Sharpen a plan or design through a relentless interview while updating the domain glossary and recording qualifying ADRs.
-- [implement](skills/engineering/implement/SKILL.md) - Build work from a confirmed Shared Design, spec, or ticket set; verify it; review it; and commit it.
-- [setup-simval-skills](skills/engineering/setup-simval-skills/SKILL.md) - Configure a repository for the engineering skill workflows.
-- [to-spec](skills/engineering/to-spec/SKILL.md) - Turn the current conversation into a tracker-ready spec.
-- [to-tickets](skills/engineering/to-tickets/SKILL.md) - Break a plan or spec into tracer-bullet tickets with blockers.
-- [triage](skills/engineering/triage/SKILL.md) - Move issues and external PRs through the triage state machine.
+- [discover](skills/engineering/discover/SKILL.md) - Structure broad or pre-delivery Simval requirements.
+- [drill](skills/engineering/drill/SKILL.md) - Turn active-release Simval scope into one concrete delivery.
+- [implement](skills/engineering/implement/SKILL.md) - Implement a prepared Simval delivery or accepted review feedback against its bound spec.
+- [init-docs](skills/engineering/init-docs/SKILL.md) - Initialize or maintain lean project documentation for AI-assisted development.
+- [init-simval](skills/engineering/init-simval/SKILL.md) - Initialize or configure a Simval workspace.
 
 ### Model-invoked
 
-- [code-review](skills/engineering/code-review/SKILL.md) - Review a diff against coding standards and the originating spec.
-- [domain-modeling](skills/engineering/domain-modeling/SKILL.md) - Build and maintain the project's domain glossary and ADRs.
-- [tdd](skills/engineering/tdd/SKILL.md) - Guide test-driven development with agreed seams and red-green-refactor discipline.
+- [grill](skills/engineering/grill/SKILL.md) - Resolve human-owned requirement decisions.
+- [prototype](skills/engineering/prototype/SKILL.md) - Resolve one Simval uncertainty through an empirical prototype.
+- [research](skills/engineering/research/SKILL.md) - Answer a bounded factual question for Simval discovery or delivery formation.
+- [review](skills/engineering/review/SKILL.md) - Independently review a verified Simval delivery against its bound spec and immutable PR diff.
 
 ## Productivity
 
@@ -29,6 +29,7 @@ See [skills/productivity](skills/productivity/README.md) for the productivity bu
 
 - [grilling](skills/productivity/grilling/SKILL.md) - Stress-test a plan or decision one question at a time.
 - [handoff](skills/productivity/handoff/SKILL.md) - Summarize a session into a handoff document for the next agent.
+- [teach](skills/productivity/teach/SKILL.md) - Teach the user a new skill or concept within this workspace.
 
 ### Model-invoked
 

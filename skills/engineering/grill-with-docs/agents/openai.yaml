@@ -1,5 +1,0 @@
-interface:
-  display_name: "Grill With Docs"
-  short_description: "Sharpen a plan or design through a relentless interview while updating the domain glossary and recording qualifying ADRs."
-policy:
-  allow_implicit_invocation: false

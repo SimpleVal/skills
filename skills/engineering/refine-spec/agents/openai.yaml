@@ -1,5 +1,0 @@
-interface:
-  display_name: "Refine Spec"
-  short_description: "Challenge and refine software product ideas and feature specs into lean product requirements."
-policy:
-  allow_implicit_invocation: false

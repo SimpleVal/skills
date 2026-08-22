@@ -1,18 +1,18 @@
 # Engineering Skills
 
-Skills for everyday code work: setup, design, specification, ticketing, implementation, testing, review, and triage.
+Skills for Simval workspace configuration, discovery, delivery formation, implementation, research, prototypes, and review.
 
 ## User-invoked
 
-- [grill-with-docs](grill-with-docs/SKILL.md) - Sharpen a plan or design through a relentless interview while updating the domain glossary and recording qualifying ADRs.
-- [implement](implement/SKILL.md) - Build work from a confirmed Shared Design, spec, or ticket set; verify it; review it; and commit it.
-- [setup-simval-skills](setup-simval-skills/SKILL.md) - Configure a repository for the engineering skill workflows.
-- [to-spec](to-spec/SKILL.md) - Turn the current conversation into a tracker-ready spec.
-- [to-tickets](to-tickets/SKILL.md) - Break a plan or spec into tracer-bullet tickets with blockers.
-- [triage](triage/SKILL.md) - Move issues and external PRs through the triage state machine.
+- [discover](discover/SKILL.md) - Structure broad or pre-delivery Simval requirements.
+- [drill](drill/SKILL.md) - Turn active-release Simval scope into one concrete delivery.
+- [implement](implement/SKILL.md) - Implement a prepared Simval delivery or accepted review feedback against its bound spec.
+- [init-docs](init-docs/SKILL.md) - Initialize or maintain lean project documentation for AI-assisted development.
+- [init-simval](init-simval/SKILL.md) - Initialize or configure a Simval workspace.
 
 ## Model-invoked
 
-- [code-review](code-review/SKILL.md) - Review a diff against coding standards and the originating spec.
-- [domain-modeling](domain-modeling/SKILL.md) - Build and maintain the project's domain glossary and ADRs.
-- [tdd](tdd/SKILL.md) - Guide test-driven development with agreed seams and red-green-refactor discipline.
+- [grill](grill/SKILL.md) - Resolve human-owned requirement decisions.
+- [prototype](prototype/SKILL.md) - Resolve one Simval uncertainty through an empirical prototype.
+- [research](research/SKILL.md) - Answer a bounded factual question for Simval discovery or delivery formation.
+- [review](review/SKILL.md) - Independently review a verified Simval delivery against its bound spec and immutable PR diff.

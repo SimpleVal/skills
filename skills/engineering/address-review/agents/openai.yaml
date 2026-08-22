@@ -1,3 +1,0 @@
-interface:
-  display_name: "Address Review"
-  short_description: "Critically evaluate every code-review finding, fix accepted findings"

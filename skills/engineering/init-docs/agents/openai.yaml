@@ -1,5 +1,0 @@
-interface:
-  display_name: "Init Docs"
-  short_description: "Initialize or maintain lean project documentation for AI-assisted development."
-policy:
-  allow_implicit_invocation: false
